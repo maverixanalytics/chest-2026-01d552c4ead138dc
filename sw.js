@@ -38,5 +38,5 @@ self.addEventListener('fetch',function(e){
       if(m)return m;
       return fetch(req).then(function(res){
         var copy=res.clone();caches.open(MEDIA).then(function(c){c.put(req,copy);});return res;
-      }).catch(function(){return new Response('',{status:504});}));}));}
+      }).catch(function(){return new Response('',{status:504});});}));}
 });
