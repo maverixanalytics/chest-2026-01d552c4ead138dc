@@ -1,0 +1,70 @@
+{
+  "slug": "chest",
+  "conference": "CHEST 2026",
+  "city": "Phoenix",
+  "dates": "October 18-21, 2026",
+  "venue": "TBA",
+  "booth": "1151",
+  "hotel": "Westin Downtown Phoenix",
+  "specialty": "Interventional Pulmonologists",
+  "vol_label": "2027 products",
+  "theme": "#1A4A5D",
+  "accent": "#FF4D00",
+  "app_short_name": "CHEST Targets",
+
+  "sync_endpoint": "PASTE_APPS_SCRIPT_URL_HERE",
+
+  "badge_pickup": "TBA",
+  "demo_room": { "name": "Demo Room", "number": "TBA", "hours_follow_hall": true, "staff_per_block": 2 },
+  "booth_concurrency": 4,
+
+  "prizes": [
+    { "place": "1st", "prize": "$150 Amazon gift card" },
+    { "place": "2nd", "prize": "$50 Amazon gift card" }
+  ],
+  "scoring": "A badge photo is 1 point. A badge photo with a note is 2 points. Any note counts - one word is often the whole story.",
+
+  "reps": [
+    { "name": "Will",     "territory": "" },
+    { "name": "Chris M.", "territory": "" },
+    { "name": "Caroline", "territory": "NYC" },
+    { "name": "James",    "territory": "Ohio" },
+    { "name": "Mark",     "territory": "Florida" },
+    { "name": "Tim",      "territory": "Boston" },
+    { "name": "Curtis",   "territory": "Houston" },
+    { "name": "Matt E.",  "territory": "West" }
+  ],
+
+  "days": [
+    { "date": "2026-10-18", "label": "Sunday, October 18", "kind": "setup",
+      "note": "Exhibit hall closed - meeting day 1, no booth activity",
+      "window": "8:00 AM - 5:00 PM", "crew": ["Will"], "crew_note": "plus help if available" },
+
+    { "date": "2026-10-19", "label": "Monday, October 19", "kind": "show",
+      "hall_open": "10:00", "hall_close": "16:00",
+      "blocks": [ {"from": "10:00", "to": "13:00"}, {"from": "13:00", "to": "16:00"} ],
+      "events": [ { "time": "5:00 - 6:00 PM", "title": "BIDMC Happy Hour", "where": "Pa'la Kitchen" } ] },
+
+    { "date": "2026-10-20", "label": "Tuesday, October 20", "kind": "show",
+      "hall_open": "10:00", "hall_close": "15:00",
+      "blocks": [ {"from": "10:00", "to": "12:30"}, {"from": "12:30", "to": "15:00"} ] },
+
+    { "date": "2026-10-21", "label": "Wednesday, October 21", "kind": "show",
+      "hall_open": "10:00", "hall_close": "14:30",
+      "blocks": [ {"from": "10:00", "to": "12:15"}, {"from": "12:15", "to": "14:30"} ],
+      "teardown": { "window": "2:30 - 8:00 PM", "crew": ["Will", "Curtis", "Kristen"], "crew_note": "plus help if available" } }
+  ],
+
+  "happy_hour": {
+    "title": "BIDMC Happy Hour",
+    "when": "Monday, October 19 - 5:00 to 6:00 PM",
+    "where": "Pa'la Kitchen, Phoenix",
+    "rsvp_url": "",
+    "empty_state": "RSVP list opens soon. Check back once invitations have gone out."
+  },
+
+  "invites": [
+    { "title": "BIDMC Happy Hour", "sub": "Mon Oct 19 - 5:00 to 6:00 PM - Pa'la Kitchen", "url": "", "tag": "tag-amber" },
+    { "title": "Demo Room booking", "sub": "Book a physician into the demo room", "url": "", "tag": "tag-purple" }
+  ]
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1A4A5D">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CHEST Targets">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3">
+<link rel="icon" type="image/png" href="favicon.png?v=3" sizes="32x32">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="pages.css">
+<title>CHEST 2026 - Leaderboard</title></head><body>
+<header class="mvx-header"><div class="mvx-headinner"><div class="mvx-brand">maverix<span>.</span></div><nav class="nav"><a href="index.html">Home</a><a href="chest.html">Target list</a><a href="chest-coverage.html">Coverage</a><a href="chest-leaders.html" aria-current="page">Leaderboard</a><a href="chest-staffing.html">Calendar</a><a href="chest-happyhour.html">Happy hour</a><a href="chest-tips.html">Cryo tips</a><a href="chest-invites.html">Invites</a><a href="chest-info.html">Event info</a></nav></div></header><main class="mvx-container"><span class="mvx-eyebrow">CHEST 2026 &middot; Contest</span>
+<h1>Leaderboard</h1>
+<div class="sub">A badge photo is 1 point. A badge photo with a note is 2 points. Any note counts - one word is often the whole story.</div>
+<div class="mvx-notice"><strong>Prototype</strong> &mdash; the sync backend is not connected yet, so checkboxes will not save or appear on anyone else's device. Everything else works. Marks made now are lost on reload.</div>
+<div class="sec"><h2>Prizes</h2><ul class="mvx-benefits"><li><strong>1st</strong> &mdash; $150 Amazon gift card</li><li><strong>2nd</strong> &mdash; $50 Amazon gift card</li></ul></div>
+<div id="board"></div>
+<div id="tiles" class="mvx-statgrid"></div>
+<div class="syncpill" id="syncpill">&nbsp;</div>
+<script>
+(function(){
+var ENDPOINT="PASTE_APPS_SCRIPT_URL_HERE";
+var LS='chest.leaders',LS_AT='chest.leaders.at',LS_REP='chest.rep';
+var pill=document.getElementById('syncpill');
+function get(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}}
+function put(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+var PRIZE=['$150','$50'];
+function render(rows,at,enabled){
+  var me=get(LS_REP,'')||'';
+  var board=document.getElementById('board');
+  if(!enabled){
+    board.innerHTML='<div class="lempty">Scoring is not switched on yet.<br>'+
+      'The standings appear here as soon as the sync script is updated.</div>';
+    document.getElementById('heron').textContent='—';
+    document.getElementById('herol').textContent='Waiting on the scoring update.';
+    document.getElementById('kpis').innerHTML='';return;}
+  if(!rows.length){
+    board.innerHTML='<div class="lempty">No leads captured yet.<br>'+
+      'The first badge photo puts someone on the board.</div>';}
+  var top=rows.length?rows[0].points:0;
+  var totalP=0,totalL=0,totalPh=0,mine=null;
+  rows.forEach(function(r){totalP+=r.points;totalL+=r.leads;totalPh+=r.photos;
+    if(me&&r.rep===me)mine=r;});
+
+  // Ties share a rank: two reps on 12 points are both 1st, next is 3rd.
+  var rank=0,prev=null;
+  var html=rows.map(function(r,i){
+    if(prev===null||r.points!==prev){rank=i+1;prev=r.points;}
+    var w=top>0?Math.max(2,Math.round(r.points/top*100)):0;
+    var isMe=me&&r.rep===me;
+    var prize=(rank<=2&&r.points>0)?'<span class="lprize">'+PRIZE[rank-1]+'</span>':'';
+    return '<div class="lrow'+(isMe?' me':'')+'" title="'+esc(r.rep)+' · '+r.points+
+      ' points from '+r.leads+' lead'+(r.leads===1?'':'s')+'">'+
+      '<div class="lrank">'+rank+'</div>'+
+      '<div class="lmain"><div class="lname">'+esc(r.rep)+
+      (isMe?'<span class="lyou">you</span>':'')+prize+'</div>'+
+      '<div class="ltrack"><div class="lbar" style="width:'+w+'%"></div></div>'+
+      '<div class="lsub">'+r.leads+' lead'+(r.leads===1?'':'s')+' · '+
+      r.photos+' photo'+(r.photos===1?'':'s')+'</div></div>'+
+      '<div class="lpts">'+r.points+'<s>pts</s></div></div>';}).join('');
+  if(rows.length)board.innerHTML=html;
+
+  var hn=document.getElementById('heron'),hl=document.getElementById('herol');
+  if(mine){var mr=0,p2=null;rows.forEach(function(r,i){if(p2===null||r.points!==p2){mr=i+1;p2=r.points;}
+      if(r.rep===me)mine.rank=mr;});
+    hn.textContent=mine.points;
+    hl.innerHTML='your points · <strong>'+ordinal(mine.rank)+'</strong> of '+rows.length+' reps';}
+  else{hn.textContent=totalP;
+    hl.innerHTML=me?'team points · <strong>'+esc(me)+'</strong> has not logged a lead yet'
+                   :'team points · save a lead to see your own rank here';}
+
+  document.getElementById('kpis').innerHTML=
+    tile(totalL,'leads captured')+tile(totalP,'team points')+
+    tile(totalPh,'badge photos')+tile(rows.length,'reps on the board');
+}
+function tile(v,k){return '<div class="kpi"><div class="v">'+v+'</div><div class="k">'+k+'</div></div>';}
+function ordinal(n){var s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);}
+
+function stale(at){
+  var el=document.getElementById('stale');
+  if(!at||navigator.onLine!==false){el.innerHTML='';return;}
+  var d=new Date(at);
+  el.innerHTML='<div class="stale">Offline &mdash; showing the standings as of '+
+    String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+
+    '. They will catch up when you have signal.</div>';}
+
+var lastAt=get(LS_AT,0);
+function status(ok){
+  if(navigator.onLine===false){pill.className='syncpill idle';pill.textContent='Offline';return;}
+  if(ok&&lastAt){var d=new Date(lastAt);pill.className='syncpill ok';
+    pill.textContent='Updated '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+  else{pill.className='syncpill idle';pill.textContent='Connecting…';}}
+
+// Paint the cached board first so the page is useful before the fetch lands.
+var cached=get(LS,null);
+render(cached||[],lastAt,cached!==null);stale(lastAt);status(!!cached);
+
+function pull(){
+  if(navigator.onLine===false){stale(lastAt);status(true);return;}
+  fetch(ENDPOINT,{cache:'no-store'}).then(function(r){return r.json();})
+    .then(function(srv){
+      var rows=srv&&srv.__leaders;
+      if(!rows){render([],0,false);status(true);return;}
+      lastAt=Date.now();put(LS,rows);put(LS_AT,lastAt);
+      render(rows,lastAt,true);stale(lastAt);status(true);})
+    .catch(function(){stale(lastAt);status(!!get(LS,null));});}
+pull();setInterval(pull,10000);
+window.addEventListener('online',pull);
+window.addEventListener('offline',function(){stale(lastAt);status(true);});
+})();
+</script></main><script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}</script>
+</body></html>

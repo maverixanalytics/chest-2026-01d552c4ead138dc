@@ -1,0 +1,181 @@
+/* Component layer. Class names are unchanged from the recovered AABIP markup so
+   the sync, filter and capture JS keeps working untouched - only the skin moves. */
+
+/* ---------- filter bar: tab-bar surface (7.8), square, italic labels */
+.filter-bar{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.6rem;background:var(--surface-tab);
+  border:1px solid var(--frame-line);padding:.85rem 1.1rem;margin-bottom:1.4rem}
+.filter-bar label{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-display);
+  text-transform:uppercase;letter-spacing:var(--tracking-caps);font-size:var(--text-xs);
+  font-weight:var(--fw-semibold);color:var(--mvx-slate)}
+.filter-bar select{font-family:var(--font-sans);font-size:var(--text-base);font-weight:var(--fw-regular);
+  color:var(--mvx-ink);background:#fff;border:1px solid var(--border-strong);border-radius:var(--radius-none);
+  padding:.45rem .6rem;min-height:var(--tap-min);text-transform:none;letter-spacing:0}
+.filter-bar .cnt{margin-left:auto;font-style:italic;color:var(--text-muted);font-size:var(--text-base)}
+
+/* ---------- physician grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:1.3rem;align-items:start}
+
+/* Card: white, SQUARE - it is a container of text, not a photo (rule 4). */
+.card{background:var(--surface-card);border:1px solid var(--frame-line);border-radius:var(--radius-none);
+  padding:1.4rem 1.4rem 1.5rem;transition:border-color var(--dur-base) ease,box-shadow var(--dur-base) ease}
+.card:hover{border-color:var(--mvx-highlight)}
+.card:focus-within{outline:2px solid var(--accent);outline-offset:3px}
+.card.connected{background:#F4F9F6;border-color:#BFDCCF}
+.card.connected:hover{border-color:#BFDCCF}
+.card .row{display:flex;gap:1.1rem}
+/* Photo panel is imagery, so it is rounded (rule 4) - but NOT greyscaled.
+   DEVIATION from 9: the whole job of this photo is face recognition at a booth. */
+.card .photo{flex:0 0 110px;width:110px;height:140px;border-radius:var(--radius-photo);overflow:hidden;
+  background:linear-gradient(160deg,#7F8A92,#3A444C)}
+.card .photo img{width:100%;height:100%;object-fit:cover}
+.card .body{flex:1;min-width:0}
+.card .rank{font-family:var(--font-display);text-transform:uppercase;letter-spacing:var(--tracking-caps);
+  font-size:var(--text-xs);font-weight:var(--fw-semibold);color:var(--mvx-slate);margin-bottom:.25rem}
+.card .name{font-family:var(--font-display);font-weight:var(--fw-bold);font-size:1.28rem;color:var(--heading);
+  line-height:var(--lh-snug);display:flex;align-items:center;gap:.45rem}
+.card .checkmark{display:none;color:var(--success);font-size:1rem}
+.card.connected .checkmark{display:inline}
+.card .inst{font-size:var(--text-base);color:var(--text-secondary);font-weight:var(--fw-light);margin-top:.1rem}
+.card .badges{display:flex;flex-wrap:wrap;gap:.4rem;margin:.55rem 0 .45rem}
+/* Chips use radius-sm (rule 4, "small chips"). radius-pill is reserved. */
+.card .vol,.card .tier,.card .cryo{border-radius:var(--radius-sm);padding:.15rem .55rem;font-size:var(--text-xs);
+  font-weight:var(--fw-semibold);letter-spacing:.01em;white-space:nowrap}
+.card .vol{background:var(--surface-soft);color:var(--mvx-teal)}
+.card .tier{background:#fff;border:1px solid var(--border-strong);color:var(--heading)}
+.card .tier.t1{border-color:var(--cat-intervention);color:var(--cat-intervention)}
+.card .cryo{background:var(--mvx-highlight);color:var(--surface-dark);font-weight:var(--fw-bold)}
+.card .meta{font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem}
+.card .links{display:flex;flex-wrap:wrap;gap:.9rem;font-size:var(--text-sm);margin-bottom:.3rem}
+.card .links a{color:var(--link)}
+.card .contact{font-size:var(--text-sm);display:flex;flex-wrap:wrap;align-items:center;gap:.35rem}
+.card .territory-tag{background:var(--surface-soft);color:var(--mvx-deep);border-radius:var(--radius-sm);
+  padding:.12rem .5rem;font-size:var(--text-xs);font-weight:var(--fw-semibold)}
+
+/* Actions: square, 44px minimum tap target. */
+.card .actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.95rem}
+.actbox{display:inline-flex;align-items:center;gap:.5rem;min-height:var(--tap-min);padding:.4rem .8rem;
+  border:1px solid var(--border-strong);background:#fff;border-radius:var(--radius-none);cursor:pointer;
+  font-family:var(--font-sans);font-size:var(--text-sm);font-weight:var(--fw-medium);color:var(--text-secondary);
+  transition:border-color var(--dur-fast) ease,color var(--dur-fast) ease,background var(--dur-fast) ease}
+.actbox input{width:17px;height:17px;accent-color:var(--accent);margin:0}
+.actbox.conf input{accent-color:var(--success)}
+.actbox.conf:hover{border-color:var(--success);color:var(--success)}
+.actbox.emailed:hover{border-color:var(--accent);color:var(--accent)}
+.card.connected .actbox.conf{border-color:var(--success);color:var(--success);background:#F1F8F4}
+.card.emailed .actbox.emailed{border-color:var(--accent);color:var(--accent);background:var(--surface-soft)}
+.actbox.cap{border-color:var(--mvx-teal);color:var(--mvx-teal);font-style:italic}
+.actbox.cap:hover{background:var(--surface-soft)}
+.capcount{display:none;margin-left:.3rem;background:var(--mvx-teal);color:#fff;border-radius:var(--radius-sm);
+  padding:0 .4rem;font-size:var(--text-xs);font-style:normal}
+.capcount.on{display:inline-block}
+.card.connected .actbox.cap{display:none}
+
+/* Talk track: 1px neutral left rule - the big-stat label pattern (7.10).
+   Not a coloured left border; the system forbids those on cards. */
+.card .talk{margin-top:.95rem;padding:.75rem 0 .75rem 1.1rem;border-left:1px solid var(--border-strong);
+  font-size:var(--text-base);font-style:italic;font-weight:var(--fw-light);color:var(--text-secondary);line-height:1.6}
+.talk-label,.ctx-label{display:block;font-family:var(--font-display);font-style:normal;text-transform:uppercase;
+  letter-spacing:var(--tracking-caps);font-size:var(--text-xs);font-weight:var(--fw-semibold);
+  color:var(--mvx-slate);margin-bottom:.3rem}
+.card .ctx{margin-top:.9rem;padding-top:.8rem;border-top:1px solid var(--border);font-size:var(--text-sm);
+  color:var(--text-note);line-height:1.6}
+
+/* ---------- sync pill */
+.syncpill{position:fixed;right:14px;bottom:14px;z-index:50;font-size:var(--text-xs);font-weight:var(--fw-semibold);
+  padding:.45rem .8rem;border:1px solid var(--frame-line);background:#fff;color:var(--text-muted)}
+.syncpill.ok{color:var(--success);border-color:#BFDCCF}
+.syncpill.warn{color:var(--warning);border-color:#E6D2A6}
+
+/* ---------- coverage */
+.covtable{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--frame-line);border-top:3px solid var(--mvx-highlight);margin-bottom:1.8rem}
+.covtable th{background:var(--surface-dark);color:#fff;text-align:left;padding:.7rem 1rem;
+  font-family:var(--font-display);font-size:var(--text-xs);font-weight:var(--fw-semibold);
+  text-transform:uppercase;letter-spacing:.06em}
+.covtable td{padding:.6rem 1rem;border-bottom:1px solid var(--border);font-size:var(--text-sm);color:var(--text-secondary)}
+.covtable tr:last-child td{border-bottom:none}
+.covtable tbody tr:hover{background:var(--surface-grid-hover)}
+.covtable .nm a{color:var(--link);font-weight:var(--fw-medium)}
+.bar{height:7px;background:var(--surface-tab);min-width:90px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--success);transition:width var(--dur-base) ease}
+.norep{display:inline-block;margin-left:.45rem;padding:.08rem .5rem;border-radius:var(--radius-sm);
+  font-size:var(--text-xs);font-weight:var(--fw-bold);background:var(--mvx-highlight);color:var(--surface-dark)}
+.covtable input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent)}
+
+/* ---------- staffing */
+.daycard{background:#fff;border:1px solid var(--frame-line);border-top:3px solid var(--mvx-highlight);padding:1.4rem 1.5rem 1.5rem;margin-bottom:1.1rem}
+.daycard h2{font-family:var(--font-display);font-size:1.35rem;font-weight:var(--fw-bold);color:var(--heading);margin-bottom:.2rem}
+.daymeta{font-size:var(--text-sm);color:var(--text-muted);margin-bottom:1rem}
+.shiftgrid{width:100%;border-collapse:collapse;margin-bottom:.9rem}
+.shiftgrid th{background:var(--surface-dark);color:#fff;text-align:left;padding:.55rem .9rem;
+  font-family:var(--font-display);font-size:var(--text-xs);font-weight:var(--fw-semibold);
+  text-transform:uppercase;letter-spacing:.06em}
+.shiftgrid td{padding:.7rem .9rem;border-bottom:1px solid var(--border);font-size:var(--text-sm);
+  color:var(--text-secondary);vertical-align:top}
+.shiftgrid tr:last-child td{border-bottom:none}
+.blk{font-weight:var(--fw-semibold);color:var(--heading);white-space:nowrap}
+.who{display:flex;flex-wrap:wrap;gap:.4rem}
+.who span{background:var(--surface-soft);color:var(--mvx-deep);border-radius:var(--radius-sm);
+  padding:.18rem .6rem;font-size:var(--text-sm);font-weight:var(--fw-semibold)}
+.who span.demo{background:var(--cat-intervention);color:#fff}
+.crewline{font-size:var(--text-base);color:var(--text-secondary);margin-top:.5rem}
+.crewline strong{color:var(--heading);font-weight:var(--fw-semibold)}
+.tba{background:var(--mvx-highlight);color:var(--surface-dark);border-radius:var(--radius-sm);
+  padding:.08rem .5rem;font-size:var(--text-xs);font-weight:var(--fw-bold)}
+
+/* ---------- landing tiles: product-tile pattern (7.2/3), dark, rounded 16px */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.3rem}
+.tilecard{display:block;background:var(--surface-tile);border-radius:var(--radius-tile);padding:1.5rem 1.4rem 1.6rem;
+  color:#fff;transition:transform var(--dur-base) var(--ease-out),box-shadow var(--dur-base) ease}
+.tilecard:hover{transform:translateY(-3px);box-shadow:var(--shadow-tile);color:#fff}
+.tilecard .tag{font-family:var(--font-display);text-transform:uppercase;letter-spacing:var(--tracking-caps);
+  font-size:var(--text-xs);font-weight:var(--fw-semibold);color:var(--mvx-highlight);display:block;margin-bottom:.6rem}
+.tilecard .title{font-family:var(--font-display);font-size:1.3rem;font-weight:var(--fw-bold);margin-bottom:.4rem}
+.tilecard .desc{font-size:var(--text-sm);color:var(--text-invert-soft);font-weight:var(--fw-light);line-height:1.55}
+
+/* ---------- info page sections */
+.sec{background:#fff;border:1px solid var(--frame-line);border-top:3px solid var(--mvx-highlight);padding:1.4rem 1.5rem 1.5rem;margin-bottom:1.1rem}
+.sec h2{font-family:var(--font-display);font-size:1.25rem;font-weight:var(--fw-bold);color:var(--heading);margin-bottom:.6rem}
+.sec p{margin-bottom:.5rem;color:var(--text-secondary)}
+.sec .note{font-size:var(--text-sm);color:var(--text-note);font-style:italic;line-height:1.6}
+.kv{width:100%;border-collapse:collapse;font-size:var(--text-base);margin:.4rem 0 .7rem}
+.kv td{padding:.45rem 0;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+.kv tr:last-child td{border-bottom:none}
+
+/* ---------- invites */
+.icards{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.3rem}
+.icard{background:#fff;border:1px solid var(--frame-line);border-top:3px solid var(--mvx-highlight);padding:1.4rem}
+.icard .tag{font-family:var(--font-display);text-transform:uppercase;letter-spacing:var(--tracking-caps);
+  font-size:var(--text-xs);font-weight:var(--fw-semibold);color:var(--mvx-slate);display:block;margin-bottom:.5rem}
+.icard .ititle{font-family:var(--font-display);font-size:1.25rem;font-weight:var(--fw-bold);color:var(--heading);margin-bottom:1rem}
+.icard .qr{width:100%;max-width:220px;margin:0 auto;border-radius:var(--radius-photo)}
+.icard .qrempty{display:flex;align-items:center;justify-content:center;min-height:190px;background:var(--surface-tab);
+  color:var(--text-muted);font-size:var(--text-sm);font-style:italic;text-align:center;padding:1.2rem}
+.ilink{margin-top:1rem;font-size:var(--text-xs);word-break:break-all;text-align:center}
+
+/* ---------- happy hour */
+.emptystate{background:#fff;border:1px solid var(--frame-line);padding:2.4rem;text-align:center;
+  color:var(--text-muted);font-style:italic;font-size:var(--text-base)}
+
+@media (max-width:760px){
+  .grid{grid-template-columns:1fr}
+  .card .photo{flex:0 0 88px;width:88px;height:112px}
+  /* Stacked full-width filter rows pushed the first card ~300px down the phone
+     screen. Two columns, label above control, keeps the grid above the fold. */
+  .filter-bar{display:grid;grid-template-columns:1fr 1fr;gap:.6rem .8rem;padding:.7rem .8rem}
+  .filter-bar label{flex-direction:column;align-items:stretch;gap:.25rem}
+  .filter-bar select{width:100%}
+  .filter-bar .cnt{grid-column:1/-1;margin-left:0;text-align:right}
+  .card .actions{gap:.4rem}
+  .actbox{flex:1 1 auto;justify-content:center;padding:.4rem .6rem}
+  .covtable,.covtable thead,.covtable tbody,.covtable th,.covtable td,.covtable tr{display:block}
+  .covtable thead{display:none}
+  .covtable tr{border-bottom:1px solid var(--border);padding:.6rem 0}
+  .covtable td{border:none;display:flex;justify-content:space-between;gap:1rem;padding:.2rem 1rem}
+  .covtable td:before{content:attr(data-l);font-family:var(--font-display);text-transform:uppercase;
+    letter-spacing:var(--tracking-caps);font-size:var(--text-xs);color:var(--mvx-slate)}
+}
+
+/* Highlight rail on the stat grid, matching the card rails. */
+.mvx-statgrid{border-top:3px solid var(--mvx-highlight)}
+/* Demo-room chip keeps the intervention blue so it stays distinct from the
+   orange highlight, which now signals attention rather than category. */
