@@ -18,8 +18,13 @@
 <div class="sub">A badge photo is 1 point. A badge photo with a note is 2 points. Any note counts - one word is often the whole story.</div>
 <div class="mvx-notice"><strong>Prototype</strong> &mdash; the sync backend is not connected yet, so checkboxes will not save or appear on anyone else's device. Everything else works. Marks made now are lost on reload.</div>
 <div class="sec"><h2>Prizes</h2><ul class="mvx-benefits"><li><strong>1st</strong> &mdash; $150 Amazon gift card</li><li><strong>2nd</strong> &mdash; $50 Amazon gift card</li></ul></div>
+<!-- The recovered scoring script addresses heron/herol/kpis/stale by id. Omitting
+     any one of them makes render() throw on first paint and the board never
+     draws, so these four stay even when they start empty. -->
+<div class="hero"><div class="n" id="heron">0</div><div class="lb" id="herol">&nbsp;</div></div>
+<div class="kpis mvx-statgrid" id="kpis"></div>
+<div id="stale"></div>
 <div id="board"></div>
-<div id="tiles" class="mvx-statgrid"></div>
 <div class="syncpill" id="syncpill">&nbsp;</div>
 <script>
 (function(){
