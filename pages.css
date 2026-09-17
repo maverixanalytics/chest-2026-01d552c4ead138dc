@@ -187,3 +187,61 @@
 .mvx-statgrid{border-top:3px solid var(--mvx-highlight)}
 /* Demo-room chip keeps the intervention blue so it stays distinct from the
    orange highlight, which now signals attention rather than category. */
+
+
+/* ---------- leaderboard
+   The scoring layer came back from AABIP intact; none of its styling did. These
+   rebuild it on Maverix tokens: teal bars for the field, orange for the rep
+   looking at the page, and the stat-grid frame reused for the four tiles. */
+.hero{display:flex;align-items:center;gap:1.2rem;background:#fff;border:1px solid var(--frame-line);
+  border-top:3px solid var(--mvx-highlight);padding:1.4rem 1.5rem;margin-bottom:1.2rem}
+.hero .n{font-family:var(--font-display);font-weight:var(--fw-bold);font-size:3rem;line-height:1;
+  color:var(--mvx-stat);font-variant-numeric:tabular-nums}
+.hero .lb{font-size:.92rem;color:var(--text-secondary);line-height:1.45}
+.hero .lb strong{color:var(--heading);font-weight:var(--fw-semibold)}
+.kpi{padding:1.5rem 1.2rem 1.8rem;border-right:1px solid var(--frame-line);transition:background var(--dur-base) ease}
+.kpi:last-child{border-right:none}
+.kpi:hover{background:var(--surface-grid-hover)}
+.kpi .v{font-family:var(--font-display);font-weight:var(--fw-bold);font-size:2rem;line-height:1.1;
+  color:var(--mvx-stat);font-variant-numeric:tabular-nums}
+.kpi:hover .v{color:var(--accent)}
+.kpi .k{font-size:var(--text-xs);font-weight:var(--fw-semibold);text-transform:uppercase;
+  letter-spacing:.06em;color:var(--text-muted);margin-top:.35rem}
+#board{background:#fff;border:1px solid var(--frame-line);margin-bottom:1.6rem}
+.lrow{display:grid;grid-template-columns:36px minmax(0,1fr) 72px;gap:.9rem;align-items:center;
+  padding:.85rem 1.1rem;border-bottom:1px solid var(--frame-line)}
+.lrow:last-child{border-bottom:none}
+.lrow.me{background:var(--surface-grid-hover)}
+.lrank{font-family:var(--font-display);font-size:.95rem;font-weight:var(--fw-bold);color:var(--text-muted);
+  text-align:center;font-variant-numeric:tabular-nums}
+.lrow.me .lrank{color:var(--mvx-highlight)}
+.lmain{min-width:0}
+.lname{font-size:.95rem;font-weight:var(--fw-semibold);color:var(--heading);display:flex;
+  align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.4rem}
+.lyou{border:1px solid var(--mvx-highlight);color:var(--mvx-highlight);border-radius:var(--radius-sm);
+  padding:.1rem .45rem;font-size:var(--text-xs);font-weight:var(--fw-semibold);
+  text-transform:uppercase;letter-spacing:.05em}
+.lprize{font-size:var(--text-xs);font-weight:var(--fw-semibold);color:var(--text-muted)}
+.ltrack{height:8px;background:var(--surface-grid-hover);overflow:hidden}
+.lbar{height:100%;background:var(--mvx-teal);min-width:2px;transition:width var(--dur-base) ease}
+.lrow.me .lbar{background:var(--mvx-highlight)}
+.lsub{font-size:var(--text-xs);color:var(--text-muted);margin-top:.4rem;font-variant-numeric:tabular-nums}
+.lpts{text-align:right;font-family:var(--font-display);font-size:1.4rem;font-weight:var(--fw-bold);
+  color:var(--heading);line-height:1.1;font-variant-numeric:tabular-nums}
+.lpts s{display:block;text-decoration:none;font-family:var(--font-sans);font-size:var(--text-xs);
+  font-weight:var(--fw-semibold);color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
+.lempty{padding:2.5rem 1.5rem;text-align:center;color:var(--text-secondary);font-size:.95rem;line-height:1.7}
+.stale{border:1px solid #E6D2A6;background:#FCF7EC;color:var(--warning);padding:.8rem 1.1rem;
+  font-size:var(--text-xs);font-weight:var(--fw-semibold);margin-bottom:1.2rem}
+.syncpill.idle{color:var(--text-muted);border-color:var(--frame-line)}
+
+@media (max-width:760px){
+  .hero{flex-direction:column;align-items:flex-start;gap:.5rem;padding:1.2rem 1.1rem}
+  .hero .n{font-size:2.4rem}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi{padding:1.1rem 1rem 1.2rem;border-bottom:1px solid var(--frame-line)}
+  .kpi:nth-child(2n){border-right:none}
+  .kpi .v{font-size:1.6rem}
+  .lrow{grid-template-columns:28px minmax(0,1fr) 58px;gap:.6rem;padding:.7rem .8rem}
+  .lpts{font-size:1.15rem}
+}
