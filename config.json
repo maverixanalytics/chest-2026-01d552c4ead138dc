@@ -12,7 +12,7 @@
   "accent": "#FF4D00",
   "app_short_name": "CHEST Targets",
   "sync_endpoint": "PASTE_APPS_SCRIPT_URL_HERE",
-  "badge_pickup": "Registration desk, Phoenix Convention Center - hours TBA",
+  "badge_pickup": "Will will collect and distribute badges. Text him when you arrive.",
   "demo_room": {
     "name": "Demo Room",
     "number": "TBA",
@@ -168,7 +168,7 @@
   ],
   "travel": {
     "airport": "Phoenix Sky Harbor International (PHX). Taxi to downtown hotels runs about $30-35.",
-    "shuttle": "Complimentary shuttles connect the official CHEST hotel block to the convention center. The Westin is not in that block, so it is not on a shuttle route - it is about a half mile walk to the convention center.",
+    "shuttle": "The Westin is in the official CHEST hotel block. We have a block of rooms there - reach out to Will with questions.",
     "departure_shuttle": "CHEST runs an airport shuttle from the convention center on Wed Oct 21, every 30 minutes, 11:00 AM - 5:00 PM MT. $12 per person, advance reservation required."
   },
   "install_dismantle": {
@@ -210,24 +210,9 @@
       "url": "https://s23.a2zinc.net/clients/ACCP/Chest2026/Public/EventMap.aspx?shMode=E&ID=932"
     },
     {
-      "label": "Premeeting courses",
-      "sub": "Saturday Oct 17 sessions",
-      "url": "https://events.rdmobile.com/Sessions/Index/20404?Search=&mode=All&pagenumber=0&hidePastSessions=True&SelectedTags=113399&SelectedTags=113221&SelectedTags=113237&SelectedTags=113244"
-    },
-    {
-      "label": "Registration",
-      "sub": "Advance pricing ends Oct 5",
-      "url": "https://registration.expologic.com/registration/start/1DB3A075-D3AA-46FE-8BAC-998B51C32463"
-    },
-    {
       "label": "Hotel and travel",
       "sub": "Block, shuttles, airport",
       "url": "https://www.chestnet.org/learning-and-events/events/chest-annual-meeting/hotel-travel"
-    },
-    {
-      "label": "Exhibits and sponsorships",
-      "sub": "Service kit, deadlines",
-      "url": "https://www.chestnet.org/learning-and-events/events/chest-annual-meeting/exhibits-and-sponsorships"
     },
     {
       "label": "CHEST 2026 home",
