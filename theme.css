@@ -32,6 +32,15 @@
   --text-note:#5B6670;--text-invert:#FFF;--text-invert-soft:#D6DDE1;
   --link:#276F8B;--link-hover:#1A4A5D;--accent:#3494BA;--accent-hover:#276F8B;--accent-press:#1A4A5D;--focus-ring:#79D5E2;
   --border:#E3E6E8;--border-strong:#C8CDD0;--frame-line:#DADDE2;--border-on-dark:rgba(255,255,255,.14);
+  /* The full brand ramp ends at --mvx-sky, where white text measures 1.69:1.
+     1.3 reserves it for brand marks for exactly that reason. Chrome that has to
+     carry text uses this dark-anchored cut of the same ramp instead: white
+     clears 5.63:1 at the lightest stop, so nav, table headers and tiles stay
+     legible end to end. */
+  --maverix-gradient:linear-gradient(135deg,#1A4A5D 0%,#276F8B 34%,#3494BA 68%,#79D5E2 100%);
+  --mvx-gradient-deep:linear-gradient(115deg,#0F3D50 0%,#1A4A5D 32%,#276F8B 100%);
+  --mvx-gradient-tile:linear-gradient(135deg,#0F3D50 0%,#1A4A5D 42%,#276F8B 100%);
+  --scrim-active:rgba(9,15,19,.55);
   --font-display:"Clash Display","Clashdisplay","Poppins",sans-serif;
   --font-sans:"Poppins",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --fw-light:300;--fw-regular:400;--fw-medium:500;--fw-semibold:600;--fw-bold:700;
@@ -72,7 +81,7 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:var(--fw-bold);color:var
 /* ---- header (7.3). Nine destinations do not fit a 62px bar at 3.6rem gaps,
    so the strip scrolls horizontally instead of collapsing to a hamburger -
    on a phone a rep needs one tap to any page, not two. */
-.mvx-header{position:sticky;top:0;z-index:60;background:var(--surface-dark);
+.mvx-header{position:sticky;top:0;z-index:60;background:var(--mvx-gradient-deep);
   border-bottom:1px solid var(--border-on-dark)}
 .mvx-headinner{display:flex;align-items:center;min-height:var(--header-h);max-width:var(--container-wide);margin:0 auto}
 .mvx-brand{font-family:var(--font-display);font-weight:var(--fw-bold);color:#fff;font-size:1rem;
@@ -84,8 +93,8 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:var(--fw-bold);color:var
 .nav a{color:#fff;font-size:.92rem;font-weight:var(--fw-light);letter-spacing:.02em;
   padding:0 18px;min-height:var(--header-h);display:flex;align-items:center;white-space:nowrap;
   border-right:1px solid var(--border-on-dark);transition:color var(--dur-fast) ease,background var(--dur-fast) ease}
-.nav a:hover{color:var(--mvx-sky);background:rgba(255,255,255,.04)}
-.nav a[aria-current]{color:var(--mvx-highlight);font-weight:var(--fw-semibold);box-shadow:inset 0 -3px 0 var(--mvx-highlight)}
+.nav a:hover{color:var(--mvx-sky);background:rgba(255,255,255,.08)}
+.nav a[aria-current]{color:#fff;font-weight:var(--fw-semibold);background:var(--scrim-active);box-shadow:inset 0 -3px 0 var(--mvx-highlight)}
 
 /* ---- framed centre column (0) */
 .mvx-container{max-width:var(--container-max);margin:0 auto;background:var(--page-bg);
@@ -134,7 +143,7 @@ h1{font-size:var(--display-section);font-weight:var(--fw-bold);letter-spacing:va
 
 /* ---- spec table (7.9). Square, no radius, no zebra. */
 .mvx-spec{width:100%;border-collapse:collapse;background:#fff;font-size:.92rem}
-.mvx-spec th{background:var(--surface-dark);color:#fff;text-align:left;padding:.7rem 1rem;font-weight:var(--fw-semibold);
+.mvx-spec th{background:var(--mvx-gradient-deep);color:#fff;text-align:left;padding:.7rem 1rem;font-weight:var(--fw-semibold);
   font-size:var(--text-xs);letter-spacing:.06em;text-transform:uppercase}
 .mvx-spec td{padding:.65rem 1rem;border-bottom:1px solid var(--border);color:var(--text-secondary);vertical-align:top}
 .mvx-spec tr:last-child td{border-bottom:none}
