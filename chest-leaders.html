@@ -16,7 +16,7 @@
 <header class="mvx-header"><div class="mvx-headinner"><div class="mvx-brand">maverix<span>.</span></div><nav class="nav"><a href="index.html">Home</a><a href="chest.html">Target list</a><a href="chest-coverage.html">Coverage</a><a href="chest-leaders.html" aria-current="page">Leaderboard</a><a href="chest-staffing.html">Calendar</a><a href="chest-happyhour.html">Happy hour</a><a href="chest-tips.html">Cryo tips</a><a href="chest-invites.html">Invites</a><a href="chest-info.html">Event info</a></nav></div></header><main class="mvx-container"><span class="mvx-eyebrow">CHEST 2026 &middot; Contest</span>
 <h1>Leaderboard</h1>
 <div class="sub">A badge photo is 1 point. A badge photo with a note is 2 points. Any note counts - one word is often the whole story.</div>
-<div class="mvx-notice"><strong>Prototype</strong> &mdash; the sync backend is not connected yet, so checkboxes will not save or appear on anyone else's device. Everything else works. Marks made now are lost on reload.</div>
+
 <div class="sec"><h2>Prizes</h2><ul class="mvx-benefits"><li><strong>1st</strong> &mdash; $150 Amazon gift card</li><li><strong>2nd</strong> &mdash; $50 Amazon gift card</li></ul></div>
 <!-- The recovered scoring script addresses heron/herol/kpis/stale by id. Omitting
      any one of them makes render() throw on first paint and the board never
@@ -28,7 +28,7 @@
 <div class="syncpill" id="syncpill">&nbsp;</div>
 <script>
 (function(){
-var ENDPOINT="PASTE_APPS_SCRIPT_URL_HERE";
+var ENDPOINT="https://script.google.com/macros/s/AKfycbwr4Wiu7kvaMrRl-Cq5zA3_400Fcdj-xuIwc6otzXz1zCapV3GMrfb5pmDFvDtKZ0Wwwg/exec";
 var LS='chest.leaders',LS_AT='chest.leaders.at',LS_REP='chest.rep';
 var pill=document.getElementById('syncpill');
 function get(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}}
