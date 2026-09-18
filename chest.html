@@ -16,15 +16,38 @@
 <header class="mvx-header"><div class="mvx-headinner"><div class="mvx-brand">maverix<span>.</span></div><nav class="nav"><a href="index.html">Home</a><a href="chest.html" aria-current="page">Target list</a><a href="chest-coverage.html">Coverage</a><a href="chest-leaders.html">Leaderboard</a><a href="chest-staffing.html">Calendar</a><a href="chest-happyhour.html">Happy hour</a><a href="chest-tips.html">Cryo tips</a><a href="chest-invites.html">Invites</a><a href="chest-info.html">Event info</a></nav></div></header><main class="mvx-container wide"><span class="mvx-eyebrow">CHEST 2026 &middot; Phoenix</span>
 <h1>Target list</h1>
 <div class="sub">45 interventional pulmonologists attending CHEST, ranked by national interventional-pulmonology procedure volume. Mark a physician after speaking with or emailing them &mdash; status syncs across every device.</div>
-<div class="mvx-notice"><strong>Prototype</strong> &mdash; the sync backend is not connected yet, so checkboxes will not save or appear on anyone else's device. Everything else works. Marks made now are lost on reload.</div>
+
 <div class="filter-bar">
   <label>Territory <select id="territory-filter"><option value="">All</option></select></label>
   <label>Tier <select id="tier-filter"><option value="">All</option><option value="1">Tier 1 &middot; top 100</option><option value="2">Tier 2 &middot; 101-260</option></select></label>
   <label>Product <select id="prod-filter"><option value="">All</option></select></label>
   <label>Sort <select id="sort-order"><option value="rank">By rank</option><option value="name">A&ndash;Z</option></select></label>
   <span class="cnt" id="card-count"></span>
+  <button type="button" class="actbox cap" id="offbtn">Off-list lead<span class="capcount" id="offcount"></span></button>
 </div>
 <div class="grid" id="grid"></div>
+<button type="button" class="offfab" id="offfab" aria-label="Capture an off-list lead">+</button>
+<div class="capmodal" id="capmodal" role="dialog" aria-modal="true" aria-labelledby="capname">
+  <div class="capbox">
+    <div class="capname" id="capname"></div>
+    <div class="capsub" id="capsub"></div>
+    <label class="caprow"><span>Your name</span>
+      <select id="caprep"><option value="">Select&hellip;</option><option value="Will">Will</option><option value="Chris M.">Chris M.</option><option value="Caroline">Caroline</option><option value="James">James</option><option value="Mark">Mark</option><option value="Tim">Tim</option><option value="Curtis">Curtis</option><option value="Matt E.">Matt E.</option></select></label>
+    <div class="capfiles">
+      <label class="capfile"><span>Take badge photo</span>
+        <input type="file" id="capinput" accept="image/*" capture="environment"></label>
+      <label class="capfile"><span>Choose an existing photo</span>
+        <input type="file" id="cappick" accept="image/*"></label>
+    </div>
+    <img class="cappreview" id="cappreview" alt="Badge photo preview">
+    <label class="caprow"><span>Note</span>
+      <textarea id="capnote" rows="3" placeholder="One word is often the whole story."></textarea></label>
+    <div class="capactions">
+      <button type="button" class="capgo" id="capsave">Save lead</button>
+      <button type="button" class="capback" id="capcancel">Cancel</button>
+    </div>
+  </div>
+</div>
 <div class="syncpill" id="syncpill">&nbsp;</div>
 <p class="mvx-rxnote">All devices are prescription-only, for use by trained physicians. See each product's Instructions for Use for complete indications, contraindications, warnings, and precautions.</p>
 <script>window.PHYS_URL='physicians.json';</script>
@@ -108,5 +131,240 @@ function apply(){
 sort.addEventListener('change',function(){resort();apply();});
 resort();apply();
 };</script>
-<script>/* sync backend not configured - see the Prototype notice above */</script></main><script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}</script>
+<script>window.initSync=function(){
+function __onload(f){if(document.readyState==='complete')f();else window.addEventListener('load',f);}
+
+var ENDPOINT='https://script.google.com/macros/s/AKfycbwr4Wiu7kvaMrRl-Cq5zA3_400Fcdj-xuIwc6otzXz1zCapV3GMrfb5pmDFvDtKZ0Wwwg/exec';
+var LS_STATE='chest.state',LS_QUEUE='chest.queue',LS_SYNC='chest.synced';
+var cards=document.querySelectorAll('.card');var byId={};
+cards.forEach(function(c){byId[c.dataset.id]=c;});
+var pill=document.getElementById('syncpill');
+
+function get(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}}
+function put(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+var state=get(LS_STATE,{});          // last confirmed server state
+var queue=get(LS_QUEUE,[]);          // writes not yet acknowledged
+var lastSync=get(LS_SYNC,0);
+
+// server state with pending local writes layered on top
+function effective(){var s={};for(var k in state)s[k]=state[k];
+  queue.forEach(function(q){if(q.v)s[q.k]=true;else delete s[q.k];});return s;}
+
+function paint(card,conf,emailed){
+  var cc=card.querySelector('.conf-cb'),ec=card.querySelector('.email-cb');
+  if(cc)cc.checked=!!conf; if(ec)ec.checked=!!emailed;
+  card.classList.toggle('connected',!!conf); card.classList.toggle('emailed',!!emailed);}
+
+function paintAll(){var s=effective();
+  Object.keys(byId).forEach(function(id){paint(byId[id],!!s[id+'-conf'],!!s[id+'-email']);});
+  if(window.paintExtras)paintExtras();}
+
+function status(){
+  var off=(navigator.onLine===false),n=queue.length+(window.leadPending||0);
+  if(off&&n){pill.className='syncpill warn';pill.textContent='Offline \u00b7 '+n+' pending';}
+  else if(off){pill.className='syncpill idle';pill.textContent='Offline \u00b7 showing saved data';}
+  else if(n){pill.className='syncpill warn';pill.textContent='Syncing '+n+'\u2026';}
+  else if(lastSync){var d=new Date(lastSync);
+    pill.className='syncpill ok';
+    pill.textContent='Synced '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+  else{pill.className='syncpill idle';pill.textContent='Connecting\u2026';}}
+
+var flushing=false;
+function flush(){
+  if(flushing||!queue.length||navigator.onLine===false){status();return;}
+  flushing=true;var item=queue[0];
+  // no Content-Type header on purpose - it would trigger a CORS preflight Apps Script cannot answer
+  fetch(ENDPOINT,{method:'POST',body:JSON.stringify({id:item.k,connected:item.v})})
+    .then(function(){
+      if(item.v)state[item.k]=true;else delete state[item.k];
+      queue=queue.filter(function(q){return q.t!==item.t||q.k!==item.k;});
+      put(LS_QUEUE,queue);put(LS_STATE,state);
+      flushing=false;status();if(queue.length)flush();})
+    .catch(function(){flushing=false;status();});}
+
+function enqueue(k,v){
+  queue=queue.filter(function(q){return q.k!==k;});
+  queue.push({k:k,v:v,t:Date.now()});
+  put(LS_QUEUE,queue);status();flush();}
+
+function pull(){
+  if(navigator.onLine===false){status();return;}
+  fetch(ENDPOINT,{cache:'no-store'}).then(function(r){return r.json();})
+    .then(function(srv){state=srv;lastSync=Date.now();
+      put(LS_STATE,state);put(LS_SYNC,lastSync);paintAll();status();flush();})
+    .catch(function(){status();});}
+
+cards.forEach(function(card){
+  var id=card.dataset.id,cc=card.querySelector('.conf-cb'),ec=card.querySelector('.email-cb');
+  if(cc)cc.addEventListener('change',function(){card.classList.toggle('connected',cc.checked);enqueue(id+'-conf',cc.checked);});
+  if(ec)ec.addEventListener('change',function(){card.classList.toggle('emailed',ec.checked);enqueue(id+'-email',ec.checked);});});
+
+window.addEventListener('online',function(){status();pull();});
+window.addEventListener('offline',status);
+
+window.paintExtras=paintExtras;window.leadPending=0;
+paintAll();status();pull();setInterval(pull,6000);setInterval(flushLeads,8000);
+
+
+/* ---------- RSVP badge + badge-photo capture ---------- */
+var LS_REP='chest.rep';
+function paintExtras(){
+  var s=effective();
+  Object.keys(byId).forEach(function(id){
+    var c=byId[id], r=c.querySelector('.rsvp'), n=c.querySelector('.capcount');
+    if(r)r.style.display=s[id+'-rsvp']?'inline-block':'none';
+    var k=s[id+'-photos'];
+    if(n){ if(k){n.textContent=k;n.classList.add('on');} else {n.textContent='';n.classList.remove('on');} }
+  });
+  var oc=document.getElementById('offcount'),ok=s['off-list-photos'];
+  if(oc){ if(ok){oc.textContent=ok;oc.classList.add('on');} else {oc.textContent='';oc.classList.remove('on');} }
+}
+
+/* Photo queue lives in IndexedDB - localStorage would blow its quota on images. */
+function db(){return new Promise(function(res,rej){
+  var r=indexedDB.open('chest-leads',1);
+  r.onupgradeneeded=function(){r.result.createObjectStore('q',{keyPath:'k',autoIncrement:true});};
+  r.onsuccess=function(){res(r.result);};r.onerror=function(){rej(r.error);};});}
+function qAdd(rec){return db().then(function(d){return new Promise(function(res){
+  var t=d.transaction('q','readwrite');t.objectStore('q').add(rec);t.oncomplete=function(){res();};});});}
+function qAll(){return db().then(function(d){return new Promise(function(res){
+  var t=d.transaction('q','readonly'),g=t.objectStore('q').getAll();
+  g.onsuccess=function(){res(g.result||[]);};});}).catch(function(){return [];});}
+function qDel(k){return db().then(function(d){return new Promise(function(res){
+  var t=d.transaction('q','readwrite');t.objectStore('q').delete(k);t.oncomplete=function(){res();};});});}
+var TABID=Math.random().toString(36).slice(2);
+function qClaim(){return db().then(function(d){return new Promise(function(res){
+  var t=d.transaction('q','readwrite'),st=t.objectStore('q'),got=null,now=Date.now();
+  st.openCursor().onsuccess=function(ev){
+    var c=ev.target.result; if(!c)return;
+    var v=c.value;
+    if(!got&&(!v.claimedAt||now-v.claimedAt>60000)){v.claimedAt=now;v.claimedBy=TABID;got=v;c.update(v);return;}
+    c.continue();
+  };
+  t.oncomplete=function(){res(got);};});}).catch(function(){return null;});}
+function qRelease(k){return db().then(function(d){return new Promise(function(res){
+  var t=d.transaction('q','readwrite'),st=t.objectStore('q'),g=st.get(k);
+  g.onsuccess=function(){var v=g.result;if(v){delete v.claimedAt;delete v.claimedBy;st.put(v);}};
+  t.oncomplete=function(){res();};});}).catch(function(){});}
+
+var leadPending=0;
+function refreshLeadCount(){return qAll().then(function(a){leadPending=a.length;window.leadPending=a.length;status();});}
+
+var sendingLeads=false;
+function flushLeads(){
+  if(sendingLeads||navigator.onLine===false)return;
+  sendingLeads=true;
+  qClaim().then(function(it){
+    if(!it){sendingLeads=false;return;}
+    return fetch(ENDPOINT,{method:'POST',body:JSON.stringify(it.payload)})
+      .then(function(r){return r.json();})
+      .then(function(){return qDel(it.k);})
+      .then(function(){sendingLeads=false;refreshLeadCount();flushLeads();pull();})
+      .catch(function(){return qRelease(it.k).then(function(){sendingLeads=false;refreshLeadCount();});});
+  }).catch(function(){sendingLeads=false;});
+}
+
+/* Shrink before upload: a 4MB phone photo becomes ~250KB, which matters on
+   exhibit-hall wifi and keeps Apps Script well inside its payload limits. */
+function shrink(file,maxpx,q){
+  return new Promise(function(res,rej){
+    var img=new Image(),url=URL.createObjectURL(file);
+    img.onload=function(){
+      var sc=Math.min(1,maxpx/Math.max(img.width,img.height));
+      var c=document.createElement('canvas');
+      c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      URL.revokeObjectURL(url);
+      try{res(c.toDataURL('image/jpeg',q).split(',')[1]);}catch(err){rej(err);}
+    };
+    img.onerror=function(){URL.revokeObjectURL(url);rej();};
+    img.src=url;
+  });
+}
+
+var modal=document.getElementById('capmodal'),capInput=document.getElementById('capinput'),
+    capPick=document.getElementById('cappick'),
+    capPrev=document.getElementById('cappreview'),capNote=document.getElementById('capnote'),
+    capRep=document.getElementById('caprep'),capSave=document.getElementById('capsave'),
+    capName=document.getElementById('capname'),capSub=document.getElementById('capsub'),
+    capCancel=document.getElementById('capcancel');
+var capTarget=null,capData=null,capMode='card';
+
+function resetCap(){
+  capData=null;capInput.value='';capPick.value='';capNote.value='';
+  capPrev.classList.remove('on');capPrev.removeAttribute('src');
+  capRep.value=localStorage.getItem(LS_REP)||'';
+  capSave.disabled=false;capSave.textContent='Save lead';
+}
+function openOffList(){
+  capMode='offlist';capTarget=null;
+  capName.textContent='Off-list lead';
+  capSub.textContent='Not on the 45 - the badge photo carries the name and institution.';
+  resetCap();modal.classList.add('open');
+}
+function openCap(card){
+  capMode='card';
+  capTarget={id:card.dataset.id,
+             name:(card.querySelector('.name')||{}).textContent.replace('✓','').trim(),
+             inst:(card.querySelector('.inst')||{}).textContent};
+  capName.textContent=capTarget.name;
+  capSub.textContent=capTarget.inst;
+  resetCap();modal.classList.add('open');
+}
+function closeCap(){modal.classList.remove('open');capTarget=null;capData=null;}
+document.getElementById('offbtn').addEventListener('click',openOffList);
+document.getElementById('offfab').addEventListener('click',openOffList);
+
+document.querySelectorAll('.capbtn').forEach(function(b){
+  b.addEventListener('click',function(){openCap(b.closest('.card'));});});
+capCancel.addEventListener('click',closeCap);
+modal.addEventListener('click',function(ev){if(ev.target===modal)closeCap();});
+
+// Same handler for both: the camera input and the album picker. Reps who
+// shot the badge earlier in the day should not have to re-take it.
+function onPhotoPicked(input,other){
+  var f=input.files&&input.files[0];if(!f)return;
+  if(other)other.value='';                 // only one photo per lead
+  capSave.disabled=true;capSave.textContent='Processing…';
+  shrink(f,1400,0.75).then(function(b64){
+    capData=b64;capPrev.src='data:image/jpeg;base64,'+b64;capPrev.classList.add('on');
+    capSave.disabled=false;capSave.textContent='Save lead';
+  }).catch(function(){capSave.disabled=false;capSave.textContent='Save lead';alert('Could not read that photo - try again.');});
+}
+capInput.addEventListener('change',function(){onPhotoPicked(capInput,capPick);});
+capPick.addEventListener('change',function(){onPhotoPicked(capPick,capInput);});
+
+capSave.addEventListener('click',function(){
+  var note=capNote.value.trim(),rep=capRep.value.trim(),id,who;
+  if(!rep){alert('Select your name so the lead is credited to you.');return;}
+  if(capMode==='offlist'){
+    if(!capData&&!note){alert('Add a badge photo or a note before saving.');return;}
+    id='off-list';who='See badge photo';
+  }else{
+    if(!capTarget)return;
+    if(!capData&&!note){alert('Add a photo or a note before saving.');return;}
+    id=capTarget.id;who=capTarget.name;
+  }
+  if(rep)localStorage.setItem(LS_REP,rep);
+  capSave.disabled=true;capSave.textContent='Saving…';
+  qAdd({payload:{kind:'lead',uid:Date.now().toString(36)+Math.random().toString(36).slice(2),id:id,name:who,rep:rep,note:note,
+                 photo:capData||'',mime:'image/jpeg'}})
+    .then(function(){closeCap();return refreshLeadCount();})
+    .then(function(){flushLeads();})
+    .catch(function(){capSave.disabled=false;capSave.textContent='Save lead';alert('Could not save locally - try again.');});
+});
+
+refreshLeadCount();flushLeads();
+window.addEventListener('online',flushLeads);
+
+// Warm the photo cache so the booth works without signal. Runs once, idle, low concurrency.
+__onload(function(){setTimeout(function(){
+  if(get('chest.warmed',0))return;
+  var urls=[];document.querySelectorAll('.photo img').forEach(function(i){if(i.src)urls.push(i.src);});
+  var i=0;function next(){if(i>=urls.length){put('chest.warmed',1);return;}
+    fetch(urls[i++],{mode:'no-cors'}).then(next).catch(next);}
+  next();next();},2500);});
+
+};</script></main><script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}</script>
 </body></html>
