@@ -16,7 +16,7 @@
 <header class="mvx-header"><div class="mvx-headinner"><div class="mvx-brand">maverix<span>.</span></div><nav class="nav"><a href="index.html">Home</a><a href="chest.html">Target list</a><a href="chest-coverage.html" aria-current="page">Coverage</a><a href="chest-leaders.html">Leaderboard</a><a href="chest-staffing.html">Calendar</a><a href="chest-happyhour.html">Happy hour</a><a href="chest-tips.html">Cryo tips</a><a href="chest-invites.html">Invites</a><a href="chest-info.html">Event info</a></nav></div></header><main class="mvx-container wide"><span class="mvx-eyebrow">CHEST 2026</span>
 <h1>Coverage</h1>
 <div class="sub">Who has been reached, and which territories still need attention. Reads the same sheet as the target list and refreshes every six seconds.</div>
-<div class="mvx-notice"><strong>Prototype</strong> &mdash; the sync backend is not connected yet, so checkboxes will not save or appear on anyone else's device. Everything else works. Marks made now are lost on reload.</div>
+
 <div class="mvx-statgrid">
   <div class="mvx-statcell"><div class="n" id="s-tot">0</div><div class="l">Physicians</div></div>
   <div class="mvx-statcell"><div class="n" id="s-con">0</div><div class="l">Connected</div><div class="p" id="p-con">0%</div></div>
@@ -28,7 +28,7 @@
 <div class="mvx-seclabel">By physician</div>
 <table class="covtable"><thead><tr><th>Rank</th><th>Name</th><th>Institution</th><th>Territory</th><th>Conf</th><th>Email</th></tr></thead><tbody id="pbody"></tbody></table>
 <script>(function(){
-var ENDPOINT='PASTE_APPS_SCRIPT_URL_HERE', LS='chest.state', ON_SITE=["Boston", "Florida", "Houston", "NYC", "Ohio", "West"];
+var ENDPOINT='https://script.google.com/macros/s/AKfycbwr4Wiu7kvaMrRl-Cq5zA3_400Fcdj-xuIwc6otzXz1zCapV3GMrfb5pmDFvDtKZ0Wwwg/exec', LS='chest.state', ON_SITE=["Boston", "Florida", "Houston", "NYC", "Ohio", "West"];
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
   .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');}
 function get(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}}
