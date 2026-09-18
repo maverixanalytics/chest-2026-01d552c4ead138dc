@@ -76,7 +76,10 @@ function render(){
 function pull(){
   if(!/^https:/.test(ENDPOINT))return;
   fetch(ENDPOINT).then(function(r){return r.json();}).then(function(j){
-    if(j&&j.state){state=j.state;try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){}render();}
+    // doGet returns the flat key map ({id}-conf / {id}-email / __leaders), not a
+    // wrapper object. Reading j.state here left every box unticked on this page
+    // while the target list, which assigns the response directly, looked fine.
+    if(j&&typeof j==='object'){state=j;try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){}render();}
   }).catch(function(){});}
 fetch('physicians.json').then(function(r){return r.json();}).then(function(d){
   data=d.sort(function(a,b){return a.r-b.r;});
