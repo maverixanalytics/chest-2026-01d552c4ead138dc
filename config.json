@@ -11,7 +11,7 @@
  "theme": "#1A4A5D",
  "accent": "#FF4D00",
  "app_short_name": "CHEST Targets",
- "sync_endpoint": "PASTE_APPS_SCRIPT_URL_HERE",
+ "sync_endpoint": "https://script.google.com/macros/s/AKfycbwr4Wiu7kvaMrRl-Cq5zA3_400Fcdj-xuIwc6otzXz1zCapV3GMrfb5pmDFvDtKZ0Wwwg/exec",
  "badge_pickup": "Will will collect and distribute badges. Text him when you arrive.",
  "booth_concurrency": 4,
  "prizes": [
