@@ -27,7 +27,6 @@ E    = html.escape
 PAGES = [
     ('index',     'Home',        'index.html'),
     ('targets',   'Target list', f'{SLUG}.html'),
-    ('coverage',  'Coverage',    f'{SLUG}-coverage.html'),
     ('leaders',   'Leaderboard', f'{SLUG}-leaders.html'),
     ('staffing',  'Calendar',    f'{SLUG}-staffing.html'),
     ('happyhour', 'Events',      f'{SLUG}-happyhour.html'),
@@ -96,7 +95,7 @@ def reslug(s):
     for old, key in [('aabip-leaders.html', 'leaders'), ('aabip-staffing.html', 'staffing'),
                      ('aabip-dinner.html', 'happyhour'), ('aabip-panel.html', 'happyhour'),
                      ('aabip-tips.html', 'tips'), ('aabip-invites.html', 'invites'),
-                     ('aabip-info.html', 'info'), ('aabip-coverage.html', 'coverage'),
+                     ('aabip-info.html', 'info'),
                      ('aabip.html', 'targets')]:
         s = s.replace(old, FILE[key])
     return s
@@ -181,75 +180,6 @@ def render_targets():
 <script>{wire(src('_script1.js'))}</script>"""
     return shell('targets', f"{CFG['conference']} - Target list", body, wide=True)
 
-# ------------------------------------------------------------------ coverage
-def render_coverage():
-    on_site = {r['territory'] for r in CFG['reps'] if r['territory']}
-    ters = sorted({p['ter'] for p in PHYS if p['ter']})
-    rows_t = []
-    for t in ters:
-        n = sum(1 for p in PHYS if p['ter'] == t)
-        flag = '' if t in on_site else '<span class="norep">no rep on site</span>'
-        rows_t.append(f'<tr data-ter="{E(t)}"><td data-l="Territory">{E(t)}{flag}</td>'
-                      f'<td data-l="Total">{n}</td><td data-l="Connected" class="c">0</td>'
-                      f'<td data-l="Emailed" class="e">0</td><td data-l="Untouched" class="u">{n}</td>'
-                      f'<td data-l="Covered"><div class="bar"><i style="width:0%"></i></div></td></tr>')
-    rows_p = ''.join(
-        f'<tr data-id="{E(p["id"])}" data-ter="{E(p["ter"])}">'
-        f'<td data-l="Rank">{p["r"]}</td>'
-        f'<td data-l="Name" class="nm"><a href="{FILE["targets"]}#{E(p["id"])}">{E(p["name"])}</a></td>'
-        f'<td data-l="Institution">{E(p["inst"])}</td>'
-        f'<td data-l="Territory">{E(p["ter"])}</td>'
-        f'<td data-l="Conf"><input type="checkbox" class="conf-cb"></td>'
-        f'<td data-l="Emailed"><input type="checkbox" class="email-cb"></td></tr>'
-        for p in sorted(PHYS, key=lambda x: x['r']))
-    js = """(function(){
-var ENDPOINT='%s',LS_STATE='%s.state';
-function get(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}}
-var state=get(LS_STATE,{});
-var prows=[].slice.call(document.querySelectorAll('tbody#pbody tr'));
-function pct(a,b){return b?Math.round(a/b*100):0;}
-function render(){
-  var tot=prows.length,c=0,e=0,per={};
-  prows.forEach(function(r){
-    var id=r.dataset.id,t=r.dataset.ter;
-    per[t]=per[t]||{n:0,c:0,e:0};per[t].n++;
-    var cf=!!state[id+'-conf'],em=!!state[id+'-email'];
-    if(cf){c++;per[t].c++;} if(em){e++;per[t].e++;}
-    r.querySelector('.conf-cb').checked=cf; r.querySelector('.email-cb').checked=em;});
-  document.getElementById('s-tot').textContent=tot;
-  document.getElementById('s-con').textContent=c;
-  document.getElementById('s-ema').textContent=e;
-  document.getElementById('s-unt').textContent=tot-c;
-  document.getElementById('p-con').textContent=pct(c,tot)+'%%';
-  document.getElementById('p-ema').textContent=pct(e,tot)+'%%';
-  document.getElementById('p-unt').textContent=pct(tot-c,tot)+'%%';
-  [].slice.call(document.querySelectorAll('tbody#tbody tr')).forEach(function(r){
-    var d=per[r.dataset.ter]||{n:0,c:0,e:0};
-    r.querySelector('.c').textContent=d.c; r.querySelector('.e').textContent=d.e;
-    r.querySelector('.u').textContent=d.n-d.c;
-    r.querySelector('.bar>i').style.width=pct(d.c,d.n)+'%%';});}
-function pull(){
-  if(!/^https:/.test(ENDPOINT))return;             // endpoint not wired yet
-  fetch(ENDPOINT).then(function(r){return r.json();}).then(function(j){
-    if(j&&j.state){state=j.state;try{localStorage.setItem(LS_STATE,JSON.stringify(state));}catch(e){}render();}
-  }).catch(function(){});}
-render();pull();setInterval(pull,6000);})();""" % (CFG['sync_endpoint'], SLUG)
-    body = f"""<span class="mvx-eyebrow">{E(CFG['conference'])}</span>
-<h1>Coverage</h1>
-<div class="sub">Who has been reached, and which territories still need attention. Reads the same sheet as the target list and refreshes every six seconds.</div>
-{NOSYNC}{DRAFT}
-<div class="mvx-statgrid">
-  <div class="mvx-statcell"><div class="n" id="s-tot">0</div><div class="l">Physicians</div></div>
-  <div class="mvx-statcell"><div class="n" id="s-con">0</div><div class="l">Connected</div><div class="p" id="p-con">0%</div></div>
-  <div class="mvx-statcell"><div class="n" id="s-ema">0</div><div class="l">Emailed</div><div class="p" id="p-ema">0%</div></div>
-  <div class="mvx-statcell"><div class="n" id="s-unt">0</div><div class="l">Not yet reached</div><div class="p" id="p-unt">0%</div></div>
-</div>
-<div class="mvx-seclabel">By territory</div>
-<table class="covtable"><thead><tr><th>Territory</th><th>Total</th><th>Connected</th><th>Emailed</th><th>Untouched</th><th>% covered</th></tr></thead><tbody id="tbody">{''.join(rows_t)}</tbody></table>
-<div class="mvx-seclabel">By physician</div>
-<table class="covtable"><thead><tr><th>Rank</th><th>Name</th><th>Institution</th><th>Territory</th><th>Conf</th><th>Email</th></tr></thead><tbody id="pbody">{rows_p}</tbody></table>
-<script>{js}</script>"""
-    return shell('coverage', f"{CFG['conference']} - Coverage", body, wide=True)
 
 # ------------------------------------------------------------------ staffing
 def render_staffing():
@@ -409,7 +339,6 @@ def render_info():
 def render_index():
     blurb = {
         'targets':   f'{len(PHYS)} {CFG["specialty"].lower()} ranked by annual core volume, with talk tracks and KOL context. Filter by territory or tier, and capture badge photos from the card.',
-        'coverage':  'Who has been reached and which territories still need attention. Flags territories with no rep on site.',
         'leaders':   'Points for every lead captured, updated live. A badge photo is one point; a photo with a note is two.',
         'staffing':  f'Who is at booth {CFG["booth"]} and the demo room, Sunday setup through Wednesday teardown.',
         'happyhour': 'Happy hour, Tuesday dinner, and lab tour RSVPs.',
@@ -419,7 +348,6 @@ def render_index():
     }
     tag = {
         'targets':   f'{len(PHYS)} physicians',
-        'coverage':  'Live status',
         'leaders':   'Contest',
         'staffing':  f'Booth {CFG["booth"]}',
         'happyhour': '3 events',
@@ -555,11 +483,10 @@ def render_manifest():
                   {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
                   {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}],
         "shortcuts": [{"name": "Target list", "url": FILE['targets']},
-                      {"name": "Coverage", "url": FILE['coverage']},
                       {"name": "Calendar", "url": FILE['staffing']}],
     }, indent=1)
 
-RENDER = {'index': render_index, 'targets': render_targets, 'coverage': render_coverage,
+RENDER = {'index': render_index, 'targets': render_targets,
           'leaders': render_leaders, 'staffing': render_staffing, 'happyhour': render_events,
           'tips': render_tips, 'invites': render_invites, 'info': render_info}
 
