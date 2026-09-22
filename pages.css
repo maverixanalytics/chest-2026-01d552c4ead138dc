@@ -25,7 +25,7 @@
    below). Nothing is ever clipped, and only a card sitting next to a
    longer one carries any empty space, not the whole grid. */
 .card{background:var(--surface-card);border:1px solid var(--frame-line);border-radius:var(--radius-none);
-  padding:.85rem .9rem .9rem;display:flex;flex-direction:column;
+  padding:.85rem .9rem .65rem;display:flex;flex-direction:column;
   transition:border-color var(--dur-base) ease,box-shadow var(--dur-base) ease}
 .card:hover{border-color:var(--mvx-highlight)}
 .card:focus-within{outline:2px solid var(--accent);outline-offset:3px}
