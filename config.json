@@ -85,7 +85,7 @@
    ],
    "events": [
     {
-     "time": "12:00 - 1:00 PM",
+     "time": "12:00 - 1:30 PM",
      "title": "Lab Tour",
      "where": "TBA"
     },
@@ -114,9 +114,14 @@
    ],
    "events": [
     {
-     "time": "12:00 - 1:00 PM",
+     "time": "12:00 - 1:30 PM",
      "title": "Lab Tour",
      "where": "TBA"
+    },
+    {
+     "time": "7:00 PM",
+     "title": "MAB Dinner",
+     "where": "Wren & Wolf"
     }
    ]
   },
@@ -134,13 +139,6 @@
     {
      "from": "12:15",
      "to": "14:30"
-    }
-   ],
-   "events": [
-    {
-     "time": "12:00 - 1:00 PM",
-     "title": "Lab Tour",
-     "where": "TBA"
     }
    ],
    "teardown": {
@@ -178,31 +176,31 @@
   ]
  },
  "tuesday_dinner": {
-  "title": "Tuesday Dinner",
-  "when": "Tuesday, October 20 - time TBA",
-  "where": "Location TBA",
+  "title": "MAB Dinner",
+  "when": "Tuesday, October 20 - 7:00 PM",
+  "where": "Wren & Wolf, Phoenix",
+  "note": "Select team members only.",
   "empty_state": "RSVP list opens soon. Check back once invitations have gone out.",
-  "rsvps": []
+  "rsvps": [
+   {
+    "name": "Kyle Hogarth"
+   }
+  ]
  },
  "lab_tour": {
   "title": "Lab Tour",
+  "description": "Physicians can book a time to get a tour of our Phoenix lab where we're developing our risk assessment test. We will provide transportation and food.",
   "empty_state": "Sign-up opens soon. Check back once slots have gone out.",
   "days": [
    {
     "day": "Monday",
-    "when": "October 19 - 12:00 to 1:00 PM",
+    "when": "October 19 - 12:00 to 1:30 PM",
     "where": "Location TBA",
     "rsvps": []
    },
    {
     "day": "Tuesday",
-    "when": "October 20 - 12:00 to 1:00 PM",
-    "where": "Location TBA",
-    "rsvps": []
-   },
-   {
-    "day": "Wednesday",
-    "when": "October 21 - 12:00 to 1:00 PM",
+    "when": "October 20 - 12:00 to 1:30 PM",
     "where": "Location TBA",
     "rsvps": []
    }
@@ -211,7 +209,7 @@
  "invites": [
   {
    "title": "Lab Tour",
-   "sub": "Mon-Wed, 12:00 to 1:00 PM - book a slot",
+   "sub": "Mon-Tue, 12:00 to 1:30 PM - book a slot",
    "url": "https://calendly.com/thoracent-maverix/maverix-lab-tour",
    "tag": "tag-amber"
   }

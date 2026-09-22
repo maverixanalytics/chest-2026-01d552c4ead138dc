@@ -255,6 +255,8 @@ def rsvp_list(rsvps, empty_state):
 
 def render_events():
     hh, td, lt = CFG['happy_hour'], CFG['tuesday_dinner'], CFG['lab_tour']
+    td_note = f'<p class="note">{E(td["note"])}</p>' if td.get('note') else ''
+    lt_desc = f'<p>{E(lt["description"])}</p>' if lt.get('description') else ''
     tour_days = ''.join(
         f'<div class="talk-label">{E(d["day"])} &middot; {E(d["when"])} &middot; {E(d["where"])}</div>'
         f'{rsvp_list(d["rsvps"], lt["empty_state"])}'
@@ -269,10 +271,10 @@ def render_events():
 
 <div class="sec"><h2>{E(td['title'])}</h2>
 <div class="sub">{E(td['when'])}<br>{E(td['where'])}</div>
-{rsvp_list(td['rsvps'], td['empty_state'])}</div>
+{td_note}{rsvp_list(td['rsvps'], td['empty_state'])}</div>
 
 <div class="sec"><h2>{E(lt['title'])}</h2>
-{tour_days}</div>"""
+{lt_desc}{tour_days}</div>"""
     return shell('happyhour', f"{CFG['conference']} - Events", body)
 
 # ------------------------------------------------------------------ invites
