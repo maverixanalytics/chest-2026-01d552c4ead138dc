@@ -281,6 +281,9 @@ def render_events():
 def render_invites():
     cards = []
     missing = False
+    # Lab Tour's description lives once, on CFG['lab_tour'], and is pulled in
+    # here rather than duplicated in the invites list so the two can't drift.
+    lab_tour_desc = CFG.get('lab_tour', {}).get('description', '')
     for inv in CFG['invites']:
         if inv['url']:
             qr = (f'<img class="qr" alt="QR code" src="https://api.qrserver.com/v1/create-qr-code/'
@@ -290,8 +293,10 @@ def render_invites():
             missing = True
             qr = '<div class="qrempty">QR appears here once the link is set</div>'
             link = '<span style="color:var(--text-muted)">Link not set yet</span>'
+        desc = (f'<p class="idesc">{E(lab_tour_desc)}</p>'
+                if inv['title'] == 'Lab Tour' and lab_tour_desc else '')
         cards.append(f'<div class="icard"><span class="tag">{E(inv["sub"])}</span>'
-                     f'<div class="ititle">{E(inv["title"])}</div>{qr}<div class="ilink">{link}</div></div>')
+                     f'<div class="ititle">{E(inv["title"])}</div>{desc}{qr}<div class="ilink">{link}</div></div>')
     missing_notice = (f'<div class="mvx-notice">Some links are still blank in <code>config.json</code>. '
                        f'Add the URL and rebuild &mdash; the QR code generates itself.</div>' if missing else '')
     body = f"""<span class="mvx-eyebrow">{E(CFG['conference'])}</span>

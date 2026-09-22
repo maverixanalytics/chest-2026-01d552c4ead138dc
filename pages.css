@@ -169,7 +169,8 @@
 .icard{background:#fff;border:1px solid var(--frame-line);border-top:3px solid var(--mvx-highlight);padding:1.4rem}
 .icard .tag{font-family:var(--font-display);text-transform:uppercase;letter-spacing:var(--tracking-caps);
   font-size:var(--text-xs);font-weight:var(--fw-semibold);color:var(--mvx-slate);display:block;margin-bottom:.5rem}
-.icard .ititle{font-family:var(--font-display);font-size:1.25rem;font-weight:var(--fw-bold);color:var(--heading);margin-bottom:1rem}
+.icard .ititle{font-family:var(--font-display);font-size:1.25rem;font-weight:var(--fw-bold);color:var(--heading);margin-bottom:.6rem}
+.icard .idesc{font-size:var(--text-sm);color:var(--text-secondary);line-height:1.55;margin-bottom:1rem}
 .icard .qr{width:100%;max-width:220px;margin:0 auto;border-radius:var(--radius-photo)}
 .icard .qrempty{display:flex;align-items:center;justify-content:center;min-height:190px;background:var(--surface-tab);
   color:var(--text-muted);font-size:var(--text-sm);font-style:italic;text-align:center;padding:1.2rem}
