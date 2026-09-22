@@ -47,10 +47,6 @@
    "territory": "Florida"
   },
   {
-   "name": "Tim",
-   "territory": "Boston"
-  },
-  {
    "name": "Curtis",
    "territory": "Houston"
   },
@@ -89,6 +85,11 @@
    ],
    "events": [
     {
+     "time": "12:00 - 1:00 PM",
+     "title": "Lab Tour",
+     "where": "TBA"
+    },
+    {
      "time": "5:00 - 6:00 PM",
      "title": "BIDMC Happy Hour",
      "where": "Pa'la Kitchen"
@@ -110,6 +111,13 @@
      "from": "12:30",
      "to": "15:00"
     }
+   ],
+   "events": [
+    {
+     "time": "12:00 - 1:00 PM",
+     "title": "Lab Tour",
+     "where": "TBA"
+    }
    ]
   },
   {
@@ -126,6 +134,13 @@
     {
      "from": "12:15",
      "to": "14:30"
+    }
+   ],
+   "events": [
+    {
+     "time": "12:00 - 1:00 PM",
+     "title": "Lab Tour",
+     "where": "TBA"
     }
    ],
    "teardown": {
@@ -175,19 +190,19 @@
   "days": [
    {
     "day": "Monday",
-    "when": "October 19 - time TBA",
+    "when": "October 19 - 12:00 to 1:00 PM",
     "where": "Location TBA",
     "rsvps": []
    },
    {
     "day": "Tuesday",
-    "when": "October 20 - time TBA",
+    "when": "October 20 - 12:00 to 1:00 PM",
     "where": "Location TBA",
     "rsvps": []
    },
    {
     "day": "Wednesday",
-    "when": "October 21 - time TBA",
+    "when": "October 21 - 12:00 to 1:00 PM",
     "where": "Location TBA",
     "rsvps": []
    }

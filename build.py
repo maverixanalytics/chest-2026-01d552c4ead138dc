@@ -182,10 +182,12 @@ def render_targets():
 
 
 # ------------------------------------------------------------------ staffing
+# DRIFT NOTE: no demo room this conference (standing instruction), so the
+# deployed page has never carried the demo-room split this function used to
+# assume - CFG has no 'demo_room' key. Matches deployed behaviour now: every
+# on-duty rep is just "at booth", no demo-room slicing.
 def render_staffing():
     reps = [r['name'] for r in CFG['reps']]
-    demo_n = CFG['demo_room']['staff_per_block']
-    dr = CFG['demo_room']
     out, rot = [], 0
     for d in CFG['days']:
         if d['kind'] == 'setup':
@@ -195,16 +197,17 @@ def render_staffing():
 <div class="crewline"><strong>Setup crew, {E(d['window'])}:</strong> {crew} <span style="color:var(--text-muted)">({E(d['crew_note'])})</span></div></div>""")
             continue
         rows = []
-        half = len(reps) // 2
+        # Ceil/floor split rather than a fixed half: with an odd rep count a
+        # fixed floor(n/2) per block would leave one rep off the schedule
+        # every day instead of just giving one block an extra person.
+        cut = -(-len(reps) // 2)
         for bi, b in enumerate(d['blocks']):
             order = reps[rot % len(reps):] + reps[:rot % len(reps)]
-            on = order[bi * half:(bi + 1) * half]
-            demo, booth = on[:demo_n], on[demo_n:]
-            chips = (''.join(f'<span>{E(x)}</span>' for x in booth) +
-                     ''.join(f'<span class="demo">{E(x)} &middot; demo</span>' for x in demo))
+            on = order[:cut] if bi == 0 else order[cut:]
+            chips = ''.join(f'<span>{E(x)}</span>' for x in on)
             rows.append(f'<tr><td class="blk">{E(b["from"])}&ndash;{E(b["to"])}</td>'
                         f'<td><div class="who">{chips}</div></td>'
-                        f'<td>{len(booth)} at booth {E(CFG["booth"])}, {len(demo)} in demo room</td></tr>')
+                        f'<td>{len(on)} at booth {E(CFG["booth"])}</td></tr>')
         rot += 4
         ev = ''.join(f'<div class="crewline"><strong>{E(x["title"])}:</strong> {E(x["time"])} &middot; {E(x["where"])}</div>'
                      for x in d.get('events', []))
@@ -213,10 +216,8 @@ def render_staffing():
             ev += (f'<div class="crewline"><strong>Teardown, {E(td["window"])}:</strong> '
                    + ' &middot; '.join(E(x) for x in td['crew'])
                    + f' <span style="color:var(--text-muted)">({E(td["crew_note"])})</span></div>')
-        drtxt = (f'{E(dr["name"])} {E(dr["number"])}' if dr['number'] != 'TBA'
-                 else f'{E(dr["name"])} <span class="tba">room TBA</span>')
         out.append(f"""<div class="daycard"><h2>{E(d['label'])}</h2>
-<div class="daymeta">Exhibit hall {E(d['hall_open'])}&ndash;{E(d['hall_close'])} MT &middot; {drtxt}</div>
+<div class="daymeta">Exhibit hall {E(d['hall_open'])}&ndash;{E(d['hall_close'])} MT</div>
 <table class="shiftgrid"><tr><th>Block</th><th>On duty</th><th>Split</th></tr>{''.join(rows)}</table>{ev}</div>""")
     body = f"""<span class="mvx-eyebrow">Booth {E(CFG['booth'])} &middot; {E(CFG['city'])}</span>
 <h1>Booth calendar</h1>
