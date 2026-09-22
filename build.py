@@ -332,10 +332,16 @@ def render_info():
 <p>{E(CFG['happy_hour']['when'])}<br>{E(CFG['happy_hour']['where'])}</p>
 <p class="note">The hall closes at 4:00 PM Monday, so there is an hour in between.</p></div>
 
-<div class="sec"><h2>Lead capture and contest</h2>
+<div class="sec"><h2>Uploading leads</h2>
+<p>Every physician card on the <a href="{FILE['targets']}">target list</a> has a <strong>Badge photo + note</strong> button. Met someone who isn't on the list? Use the orange <strong>+</strong> button in the bottom-left corner of the target list, or <strong>Off-list lead</strong> in the filter bar, instead.</p>
+<p><strong>1.</strong> Tap <strong>Badge photo + note</strong> on their card (or the off-list button).<br>
+<strong>2.</strong> Under <strong>Your name</strong>, select yourself so the lead is credited to you.<br>
+<strong>3.</strong> Tap <strong>Take badge photo</strong> to use your camera, or <strong>Choose an existing photo</strong> for one already on your phone.<br>
+<strong>4.</strong> Add a note if you can &mdash; one word is often the whole story.<br>
+<strong>5.</strong> Tap <strong>Save lead</strong>.</p>
+<p class="note">Saving works offline &mdash; the lead is queued on your phone right away and uploads automatically once you have signal, with no need to keep the tab open. The pill in the bottom-right corner of the target list shows sync status.</p>
 <p>{E(CFG['scoring'])}</p>
-<ul class="mvx-benefits">{prizes}</ul>
-<p class="note">Capture from the physician's card on the target list. Captures work offline and flush when signal returns.</p></div>
+<ul class="mvx-benefits">{prizes}</ul></div>
 
 <p class="mvx-rxnote">All devices are prescription-only, for use by trained physicians. See each product's Instructions for Use for complete indications, contraindications, warnings, and precautions.</p>"""
     return shell('info', f"{CFG['conference']} - CHEST Info", body)
