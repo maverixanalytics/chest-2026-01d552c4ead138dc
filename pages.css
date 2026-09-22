@@ -16,15 +16,16 @@
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:.75rem;align-items:stretch}
 
 /* Card: white, SQUARE - it is a container of text, not a photo (rule 4).
-   Every card is the same fixed height (rule: uniform grid, quick scanning at
-   the booth). Rather than line-clamping the talk track/context/institution
-   text to force it into a shorter box - which keeps coming back as clipped
-   or truncated mid-sentence - the height below is set to the tallest of all
-   45 physicians' full, unclamped content (measured at 574px across every
-   desktop column count), plus a margin. Nothing gets cut off; shorter cards
-   just carry a little empty space at the bottom. */
+   A single fixed height sized to the tallest of all 45 cards forced a lot
+   of empty space at the bottom of every shorter one. No height is set here
+   at all - .grid keeps align-items:stretch (the default), so CSS Grid's own
+   per-row auto-sizing takes over: each row is exactly as tall as its
+   tallest card, and every other card in that row stretches to match (the
+   leftover space lands after their .ctx block, inside the flex column
+   below). Nothing is ever clipped, and only a card sitting next to a
+   longer one carries any empty space, not the whole grid. */
 .card{background:var(--surface-card);border:1px solid var(--frame-line);border-radius:var(--radius-none);
-  padding:.85rem .9rem .9rem;height:600px;overflow:hidden;display:flex;flex-direction:column;
+  padding:.85rem .9rem .9rem;display:flex;flex-direction:column;
   transition:border-color var(--dur-base) ease,box-shadow var(--dur-base) ease}
 .card:hover{border-color:var(--mvx-highlight)}
 .card:focus-within{outline:2px solid var(--accent);outline-offset:3px}
@@ -182,8 +183,6 @@
 
 @media (max-width:760px){
   .grid{grid-template-columns:1fr}
-  .card{height:auto;max-height:none;overflow:visible}
-  .card .inst,.card .talk,.card .ctx{-webkit-line-clamp:unset;overflow:visible}
   /* Sections/day-cards carry a lot of the site's content (Info, Events,
      Calendar) - on a phone that's a long scroll, so padding and gaps between
      them shrink further here than the desktop compression already gives. */
