@@ -278,21 +278,25 @@ def render_events():
 # ------------------------------------------------------------------ invites
 def render_invites():
     cards = []
+    missing = False
     for inv in CFG['invites']:
         if inv['url']:
             qr = (f'<img class="qr" alt="QR code" src="https://api.qrserver.com/v1/create-qr-code/'
                   f'?size=320x320&amp;data={html.escape(inv["url"], quote=True)}">')
             link = f'<a href="{E(inv["url"])}" target="_blank">{E(inv["url"])} &#8599;</a>'
         else:
+            missing = True
             qr = '<div class="qrempty">QR appears here once the link is set</div>'
             link = '<span style="color:var(--text-muted)">Link not set yet</span>'
         cards.append(f'<div class="icard"><span class="tag">{E(inv["sub"])}</span>'
                      f'<div class="ititle">{E(inv["title"])}</div>{qr}<div class="ilink">{link}</div></div>')
+    missing_notice = (f'<div class="mvx-notice">Some links are still blank in <code>config.json</code>. '
+                       f'Add the URL and rebuild &mdash; the QR code generates itself.</div>' if missing else '')
     body = f"""<span class="mvx-eyebrow">{E(CFG['conference'])}</span>
 <h1>Invites</h1>
-<div class="sub">Scan at the booth or in the demo room, or text the link.</div>
-<div class="mvx-notice">Both links are still blank in <code>config.json</code>. Add the URLs and rebuild &mdash; the QR codes generate themselves.</div>
-<div class="icards">{''.join(cards)}</div>"""
+<div class="sub">Scan at the booth, or text the link.</div>
+<div class="mvx-notice">No happy hour invite here &mdash; Beth Israel Deaconess is managing outreach for that event directly to their alumni.</div>
+{missing_notice}<div class="icards">{''.join(cards)}</div>"""
     return shell('invites', f"{CFG['conference']} - Invites", body)
 
 # ------------------------------------------------------------------ CHEST info

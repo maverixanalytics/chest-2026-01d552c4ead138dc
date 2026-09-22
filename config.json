@@ -210,9 +210,9 @@
  },
  "invites": [
   {
-   "title": "BIDMC Happy Hour",
-   "sub": "Mon Oct 19 - 5:00 to 6:00 PM - Pa'la Kitchen",
-   "url": "",
+   "title": "Lab Tour",
+   "sub": "Mon-Wed, 12:00 to 1:00 PM - book a slot",
+   "url": "https://calendly.com/thoracent-maverix/maverix-lab-tour",
    "tag": "tag-amber"
   }
  ],
