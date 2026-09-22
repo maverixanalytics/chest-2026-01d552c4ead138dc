@@ -16,14 +16,15 @@
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:.75rem;align-items:stretch}
 
 /* Card: white, SQUARE - it is a container of text, not a photo (rule 4).
-   A single fixed height sized to the tallest of all 45 cards forced a lot
-   of empty space at the bottom of every shorter one. No height is set here
-   at all - .grid keeps align-items:stretch (the default), so CSS Grid's own
-   per-row auto-sizing takes over: each row is exactly as tall as its
-   tallest card, and every other card in that row stretches to match (the
-   leftover space lands after their .ctx block, inside the flex column
-   below). Nothing is ever clipped, and only a card sitting next to a
-   longer one carries any empty space, not the whole grid. */
+   No height is set here at all - .grid keeps align-items:stretch (the
+   default), so CSS Grid's own per-row auto-sizing takes over: each row is
+   exactly as tall as its tallest card, and every other card in that row
+   stretches to match. Nothing is ever clipped. Any leftover stretch space
+   is pulled to sit between the identity block and the action buttons (see
+   "margin-top:auto" on .actions below) instead of trailing below the
+   whole card, so the action row / talk track always sit flush at the
+   bottom and line up across a row, rather than reading as a blank gap
+   after the content. */
 .card{background:var(--surface-card);border:1px solid var(--frame-line);border-radius:var(--radius-none);
   padding:.85rem .9rem .65rem;display:flex;flex-direction:column;
   transition:border-color var(--dur-base) ease,box-shadow var(--dur-base) ease}
@@ -69,8 +70,11 @@
 .card .territory-tag{background:var(--surface-soft);color:var(--mvx-deep);border-radius:var(--radius-sm);
   padding:.1rem .45rem;font-size:.72rem;font-weight:var(--fw-semibold)}
 
-/* Actions: square, 44px minimum tap target. */
-.card .actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;flex:0 0 auto}
+/* Actions: square, 44px minimum tap target. margin-top:auto pulls any
+   stretch slack (see .card comment above) to sit right here, so the
+   action buttons and talk track below them are always flush with the
+   card's bottom edge instead of leaving a gap after them. */
+.card .actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:auto;padding-top:.5rem;flex:0 0 auto}
 .actbox{display:inline-flex;align-items:center;gap:.4rem;min-height:36px;padding:.3rem .6rem;
   border:1px solid var(--border-strong);background:#fff;border-radius:var(--radius-none);cursor:pointer;
   font-family:var(--font-sans);font-size:.78rem;font-weight:var(--fw-medium);color:var(--text-secondary);
