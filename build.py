@@ -312,10 +312,20 @@ def render_leaders():
 # ------------------------------------------------------------------ happy hour
 def render_happyhour():
     hh = CFG['happy_hour']
+    # RSVP list: names from config; an entry with an "id" is on the target
+    # list and links to that physician's card.
+    rows = []
+    for r in hh.get('rsvps', []):
+        tag = (f' &mdash; <a href="{SLUG}.html#{E(r["id"])}">on target list</a>'
+               if r.get('id') else '')
+        rows.append(f'<li><strong>{E(r["name"])}</strong>{tag}</li>')
+    rsvps = (f'<div class="sec"><h2>RSVPs ({len(rows)})</h2>'
+             f'<ul class="mvx-benefits">{"".join(rows)}</ul></div>'
+             if rows else f'<div class="emptystate">{E(hh["empty_state"])}</div>')
     body = f"""<span class="mvx-eyebrow">{E(hh['when'])}</span>
 <h1>{E(hh['title'])}</h1>
 <div class="sub">{E(hh['where'])}</div>
-<div class="emptystate">{E(hh['empty_state'])}</div>"""
+{rsvps}"""
     return shell('happyhour', f"{CFG['conference']} - {hh['title']}", body)
 
 # ------------------------------------------------------------------ invites

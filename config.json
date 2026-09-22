@@ -144,7 +144,23 @@
   "when": "Monday, October 19 - 5:00 to 6:00 PM",
   "where": "Pa'la Kitchen, Phoenix",
   "rsvp_url": "",
-  "empty_state": "RSVP list opens soon. Check back once invitations have gone out."
+  "empty_state": "RSVP list opens soon. Check back once invitations have gone out.",
+  "rsvps": [
+   {
+    "name": "George Cheng",
+    "id": "chest-14"
+   },
+   {
+    "name": "Kai Swenson",
+    "id": "chest-15"
+   },
+   {
+    "name": "Yaron Gesthalter"
+   },
+   {
+    "name": "Abhinav Mittal"
+   }
+  ]
  },
  "invites": [
   {

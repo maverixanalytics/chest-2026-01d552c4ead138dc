@@ -86,8 +86,8 @@
   "email": "",
   "phone": "",
   "ter": "Phoenix",
-  "photo": "",
-  "hp": "",
+  "photo": "https://phoenixmed.arizona.edu/sites/default/files/depts/im/divisions/pulmonary_medicine/-alalawi-raed.jpg",
+  "hp": "https://doctors.bannerhealth.com/provider/raed-alalawi/517744",
   "acuity": "",
   "tier": "1",
   "prod": [
@@ -159,8 +159,8 @@
   "email": "",
   "phone": "",
   "ter": "Southeast",
-  "photo": "",
-  "hp": "",
+  "photo": "https://ucmscdn.healthgrades.com/42/8f/2aeb035346adb02b9473af298722/callahan-sean-1043505670.jpg",
+  "hp": "https://doctors.prismahealth.org/provider/sean-patrick-callahan/994939",
   "acuity": "",
   "tier": "1",
   "prod": [
@@ -285,8 +285,8 @@
   "email": "",
   "phone": "",
   "ter": "Ohio",
-  "photo": "",
-  "hp": "",
+  "photo": "https://pulmonologyonair.com/wp-content/uploads/2024/01/Joseph-Cicenia.jpg",
+  "hp": "https://my.clevelandclinic.org/staff/14998-joseph-cicenia",
   "acuity": "",
   "tier": "1",
   "prod": [
@@ -348,7 +348,7 @@
   ],
   "surname": "Cheng George",
   "talk": "Balloon is the anchor. Bonastent + Y Stent for his stenting (47), and Serpex given his TBA (153).",
-  "ctx": "Top 3: Transbronchial Biopsy (552), Bronch Basic (346), Balloon (128). One of the higher balloon volumes in the set."
+  "ctx": "Top 3: Transbronchial Biopsy (552), Bronch Basic (346), Balloon (128). One of the higher balloon volumes in the set. RSVP’d to the BIDMC happy hour (Mon 5 PM, Pa’la Kitchen)."
  },
  {
   "r": 15,
@@ -373,7 +373,7 @@
   ],
   "surname": "Swenson Kai",
   "talk": "Bonastent and Y Stent are natural leads given the airway work. Biopsy Forceps for TBB.",
-  "ctx": "Top 3: Transbronchial Biopsy (602), Bronch Basic (387), Robotic Bronchoscopy (175). Growing rigid bronch (32) and stenting (24)."
+  "ctx": "Top 3: Transbronchial Biopsy (602), Bronch Basic (387), Robotic Bronchoscopy (175). Growing rigid bronch (32) and stenting (24). RSVP’d to the BIDMC happy hour (Mon 5 PM, Pa’la Kitchen)."
  },
  {
   "r": 16,
@@ -413,8 +413,8 @@
   "email": "",
   "phone": "",
   "ter": "Southeast",
-  "photo": "",
-  "hp": "",
+  "photo": "https://a.mktgcdn.com/p/RM5Pm2tznUunoK1k4E8K_JA83Gt30ySPMKwOdZJqUMs/650x812.jpg",
+  "hp": "https://www.unchealth.org/care-services/doctors/m/hiren-mehta-md",
   "acuity": "https://app.acuitymd.com/acuityai/hcp/1235339599",
   "tier": "2",
   "prod": [
@@ -512,8 +512,8 @@
   "email": "",
   "phone": "",
   "ter": "Boston",
-  "photo": "",
-  "hp": "",
+  "photo": "https://pulmonologyonair.com/wp-content/uploads/2024/01/Jason-Beattie.jpg",
+  "hp": "https://findadoc.bidmc.org/details/5201/jason-beattie-internal_medicine-pulmonary_disease-boston",
   "acuity": "",
   "tier": "2",
   "prod": [
@@ -562,8 +562,8 @@
   "email": "",
   "phone": "",
   "ter": "Ohio",
-  "photo": "",
-  "hp": "",
+  "photo": "https://pulmonologyonair.com/wp-content/uploads/2024/01/Sonali-Sethi.jpg",
+  "hp": "https://providers.clevelandclinic.org/provider/sonali-sethi/4271298",
   "acuity": "",
   "tier": "2",
   "prod": [
@@ -614,8 +614,8 @@
   "email": "",
   "phone": "",
   "ter": "Southeast",
-  "photo": "",
-  "hp": "",
+  "photo": "https://cdn.atriumhealth.org/-/media/wakeforest/global/system/person-images/j/jaspal-singh.jpg?mw=1200&rev=22b0cf981f1c4181b9d47341d5c28c0d&hash=A8984652EFCD49A7D0F0FBDED6D47144",
+  "hp": "https://atriumhealth.org/provider-profile/jaspal-singh-1720010895",
   "acuity": "",
   "tier": "2",
   "prod": [
@@ -692,8 +692,8 @@
   "email": "",
   "phone": "",
   "ter": "Phoenix",
-  "photo": "",
-  "hp": "",
+  "photo": "https://medicine.arizona.edu/sites/default/files/styles/az_medium/public/2023-10/201800354_chopra_madhav_paccs_composite_2018-18.jpg.webp?itok=FaxxmEtX",
+  "hp": "https://medicine.arizona.edu/person/madhav-chopra-md",
   "acuity": "",
   "tier": "2",
   "prod": [
@@ -1022,8 +1022,8 @@
   "email": "",
   "phone": "",
   "ter": "Florida",
-  "photo": "",
-  "hp": "",
+  "photo": "https://ufhealth.org/assets/profile-photos/portrait/_200x300_crop_center-center_82_line/HirenMehta-913501a9-portrait.jpg",
+  "hp": "https://ufhealth.org/doctors/hiren-mehta",
   "acuity": "https://app.acuitymd.com/acuityai/hcp/1922364249",
   "tier": "2",
   "prod": [
