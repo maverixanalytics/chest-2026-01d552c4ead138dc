@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="pages.css">
 <title>CHEST 2026 - Target list</title></head><body>
-<header class="mvx-header"><div class="mvx-headinner"><div class="mvx-brand">maverix<span>.</span></div><nav class="nav"><a href="index.html">Home</a><a href="chest.html" aria-current="page">Target list</a><a href="chest-coverage.html">Coverage</a><a href="chest-leaders.html">Leaderboard</a><a href="chest-staffing.html">Calendar</a><a href="chest-happyhour.html">Happy hour</a><a href="chest-tips.html">Cryo tips</a><a href="chest-invites.html">Invites</a><a href="chest-info.html">Event info</a></nav></div></header><main class="mvx-container wide"><span class="mvx-eyebrow">CHEST 2026 &middot; Phoenix</span>
+<header class="mvx-header"><div class="mvx-headinner"><div class="mvx-brand">maverix<span>.</span></div><nav class="nav"><a href="index.html">Home</a><a href="chest.html" aria-current="page">Target list</a><a href="chest-coverage.html">Coverage</a><a href="chest-leaders.html">Leaderboard</a><a href="chest-staffing.html">Calendar</a><a href="chest-happyhour.html">Events</a><a href="chest-tips.html">Cryo tips</a><a href="chest-invites.html">Invites</a><a href="chest-info.html">CHEST Info</a></nav></div></header><main class="mvx-container wide"><span class="mvx-eyebrow">CHEST 2026 &middot; Phoenix</span>
 <h1>Target list</h1>
 <div class="sub">45 interventional pulmonologists attending CHEST, ranked by national interventional-pulmonology procedure volume. Mark a physician after speaking with or emailing them &mdash; status syncs across every device.</div>
 
@@ -55,10 +55,19 @@
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
   .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');}
 function pad(n){return n<10?'0'+n:''+n;}
+var TOURDAY={mon:'Mon',tue:'Tue',wed:'Wed'};
+function eventTag(ev){
+  if(ev==='happyhour') return '<span class="rsvp-tag">Happy Hour</span>';
+  if(ev==='tuesdaydinner') return '<span class="rsvp-tag rsvp-dinner">Tues Dinner</span>';
+  if(ev.indexOf('labtour')===0){
+    var day=TOURDAY[ev.split('-')[1]]||'';
+    return '<span class="rsvp-tag rsvp-tour">Lab Tour'+(day?' &middot; '+day:'')+'</span>';}
+  return '';}
 function card(p){
   var photo = p.photo ? '<img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display=&#39;none&#39;">' : '';
   var badges = '<span class="vol">'+esc(p.vol)+'</span>';
   if(p.tier) badges += '<span class="tier t'+esc(p.tier)+'">Tier '+esc(p.tier)+'</span>';
+  (p.events||[]).forEach(function(ev){badges += eventTag(ev);});
   var prods = (p.prod||[]).map(function(x){return '<span class="prod">'+esc(x)+'</span>';}).join('');
   var links = '';
   if(p.hp)     links += '<a href="'+esc(p.hp)+'" target="_blank">Hospital page &#8599;</a>';

@@ -162,6 +162,37 @@
    }
   ]
  },
+ "tuesday_dinner": {
+  "title": "Tuesday Dinner",
+  "when": "Tuesday, October 20 - time TBA",
+  "where": "Location TBA",
+  "empty_state": "RSVP list opens soon. Check back once invitations have gone out.",
+  "rsvps": []
+ },
+ "lab_tour": {
+  "title": "Lab Tour",
+  "empty_state": "Sign-up opens soon. Check back once slots have gone out.",
+  "days": [
+   {
+    "day": "Monday",
+    "when": "October 19 - time TBA",
+    "where": "Location TBA",
+    "rsvps": []
+   },
+   {
+    "day": "Tuesday",
+    "when": "October 20 - time TBA",
+    "where": "Location TBA",
+    "rsvps": []
+   },
+   {
+    "day": "Wednesday",
+    "when": "October 21 - time TBA",
+    "where": "Location TBA",
+    "rsvps": []
+   }
+  ]
+ },
  "invites": [
   {
    "title": "BIDMC Happy Hour",

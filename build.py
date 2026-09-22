@@ -30,10 +30,10 @@ PAGES = [
     ('coverage',  'Coverage',    f'{SLUG}-coverage.html'),
     ('leaders',   'Leaderboard', f'{SLUG}-leaders.html'),
     ('staffing',  'Calendar',    f'{SLUG}-staffing.html'),
-    ('happyhour', 'Happy hour',  f'{SLUG}-happyhour.html'),
+    ('happyhour', 'Events',      f'{SLUG}-happyhour.html'),
     ('tips',      'Cryo tips',   f'{SLUG}-tips.html'),
     ('invites',   'Invites',     f'{SLUG}-invites.html'),
-    ('info',      'Event info',  f'{SLUG}-info.html'),
+    ('info',      'CHEST Info',  f'{SLUG}-info.html'),
 ]
 FILE = {k: f for k, _, f in PAGES}
 # Flat at the repo root: GitHub's web uploader does not preserve subfolder paths
@@ -310,23 +310,39 @@ def render_leaders():
     return shell('leaders', f"{CFG['conference']} - Leaderboard", body)
 
 # ------------------------------------------------------------------ happy hour
-def render_happyhour():
-    hh = CFG['happy_hour']
+def rsvp_list(rsvps, empty_state):
     # RSVP list: names from config; an entry with an "id" is on the target
     # list and links to that physician's card.
     rows = []
-    for r in hh.get('rsvps', []):
+    for r in rsvps:
         tag = (f' &mdash; <a href="{SLUG}.html#{E(r["id"])}">on target list</a>'
                if r.get('id') else '')
         rows.append(f'<li><strong>{E(r["name"])}</strong>{tag}</li>')
-    rsvps = (f'<div class="sec"><h2>RSVPs ({len(rows)})</h2>'
-             f'<ul class="mvx-benefits">{"".join(rows)}</ul></div>'
-             if rows else f'<div class="emptystate">{E(hh["empty_state"])}</div>')
-    body = f"""<span class="mvx-eyebrow">{E(hh['when'])}</span>
-<h1>{E(hh['title'])}</h1>
-<div class="sub">{E(hh['where'])}</div>
-{rsvps}"""
-    return shell('happyhour', f"{CFG['conference']} - {hh['title']}", body)
+    if rows:
+        return f'<ul class="mvx-benefits">{"".join(rows)}</ul>'
+    return f'<div class="emptystate">{E(empty_state)}</div>'
+
+def render_events():
+    hh, td, lt = CFG['happy_hour'], CFG['tuesday_dinner'], CFG['lab_tour']
+    tour_days = ''.join(
+        f'<div class="talk-label">{E(d["day"])} &middot; {E(d["when"])} &middot; {E(d["where"])}</div>'
+        f'{rsvp_list(d["rsvps"], lt["empty_state"])}'
+        for d in lt['days'])
+    body = f"""<span class="mvx-eyebrow">{E(CFG['conference'])}</span>
+<h1>Events</h1>
+<div class="sub">RSVPs for the happy hour, Tuesday dinner, and lab tours &mdash; who's confirmed for each.</div>
+
+<div class="sec"><h2>{E(hh['title'])}</h2>
+<div class="sub">{E(hh['when'])}<br>{E(hh['where'])}</div>
+{rsvp_list(hh['rsvps'], hh['empty_state'])}</div>
+
+<div class="sec"><h2>{E(td['title'])}</h2>
+<div class="sub">{E(td['when'])}<br>{E(td['where'])}</div>
+{rsvp_list(td['rsvps'], td['empty_state'])}</div>
+
+<div class="sec"><h2>{E(lt['title'])}</h2>
+{tour_days}</div>"""
+    return shell('happyhour', f"{CFG['conference']} - Events", body)
 
 # ------------------------------------------------------------------ invites
 def render_invites():
@@ -348,20 +364,28 @@ def render_invites():
 <div class="icards">{''.join(cards)}</div>"""
     return shell('invites', f"{CFG['conference']} - Invites", body)
 
-# ------------------------------------------------------------------ event info
+# ------------------------------------------------------------------ CHEST info
+# DRIFT WARNING: the deployed chest-info.html has been hand-extended well past
+# what this function produces (Venue, Install/dismantle windows, Links table,
+# travel detail live in the file but not here; CFG has no 'demo_room' key,
+# which this function used to assume). Do not regenerate chest-info.html from
+# this function without first reconciling those sections by hand - it will
+# silently drop them. Fixed here only enough to not crash and to carry the
+# CHEST Info rename forward for whenever that reconciliation happens.
 def render_info():
     hall = ''.join(f'<tr><td>{E(d["label"])}</td><td>{E(d["hall_open"])}&ndash;{E(d["hall_close"])} MT</td></tr>'
                    for d in CFG['days'] if d['kind'] == 'show')
     setup = next(d for d in CFG['days'] if d['kind'] == 'setup')
     tdn = next(d['teardown'] for d in CFG['days'] if d.get('teardown'))
     prizes = ''.join(f'<li><strong>{E(p["place"])}</strong> &mdash; {E(p["prize"])}</li>' for p in CFG['prizes'])
-    dr = CFG['demo_room']
+    dr = CFG.get('demo_room')
+    demo_line = f" {E(dr['name'])}: <strong>{E(dr['number'])}</strong>." if dr else ""
     body = f"""<span class="mvx-eyebrow">{E(CFG['city'])} &middot; {E(CFG['dates'])}</span>
-<h1>Event info</h1>
+<h1>CHEST Info</h1>
 <div class="sub">Everything in one page.</div>
 
 <div class="sec"><h2>Booth</h2>
-<p>Booth <strong>{E(CFG['booth'])}</strong>. {E(dr['name'])}: <strong>{E(dr['number'])}</strong>.</p>
+<p>Booth <strong>{E(CFG['booth'])}</strong>.{demo_line}</p>
 <table class="kv">{hall}</table>
 <p class="note">Setup {E(setup['label'])}, {E(setup['window'])} &mdash; {' &middot; '.join(E(x) for x in setup['crew'])} ({E(setup['crew_note'])}). Teardown Wednesday, {E(tdn['window'])} &mdash; {' &middot; '.join(E(x) for x in tdn['crew'])} ({E(tdn['crew_note'])}).</p>
 <p class="note">The exhibit hall does not open until Monday. Sunday is setup only.</p></div>
@@ -379,7 +403,7 @@ def render_info():
 <p class="note">Capture from the physician's card on the target list. Captures work offline and flush when signal returns.</p></div>
 
 <p class="mvx-rxnote">All devices are prescription-only, for use by trained physicians. See each product's Instructions for Use for complete indications, contraindications, warnings, and precautions.</p>"""
-    return shell('info', f"{CFG['conference']} - Event info", body)
+    return shell('info', f"{CFG['conference']} - CHEST Info", body)
 
 # ------------------------------------------------------------------ landing
 def render_index():
@@ -388,7 +412,7 @@ def render_index():
         'coverage':  'Who has been reached and which territories still need attention. Flags territories with no rep on site.',
         'leaders':   'Points for every lead captured, updated live. A badge photo is one point; a photo with a note is two.',
         'staffing':  f'Who is at booth {CFG["booth"]} and the demo room, Sunday setup through Wednesday teardown.',
-        'happyhour': f'{CFG["happy_hour"]["when"]} at {CFG["happy_hour"]["where"]}.',
+        'happyhour': 'Happy hour, Tuesday dinner, and lab tour RSVPs.',
         'tips':      'Narwhal setup, operation and watchouts, plus the answers physicians ask for most. Works offline.',
         'invites':   'QR codes and textable links for the happy hour and demo room booking.',
         'info':      'Hotel, badges, exhibit hours, lead capture, prizes and links.',
@@ -398,7 +422,7 @@ def render_index():
         'coverage':  'Live status',
         'leaders':   'Contest',
         'staffing':  f'Booth {CFG["booth"]}',
-        'happyhour': 'Mon 5:00 PM',
+        'happyhour': '3 events',
         'tips':      'Field reference',
         'invites':   'QR codes',
         'info':      'Logistics',
@@ -536,7 +560,7 @@ def render_manifest():
     }, indent=1)
 
 RENDER = {'index': render_index, 'targets': render_targets, 'coverage': render_coverage,
-          'leaders': render_leaders, 'staffing': render_staffing, 'happyhour': render_happyhour,
+          'leaders': render_leaders, 'staffing': render_staffing, 'happyhour': render_events,
           'tips': render_tips, 'invites': render_invites, 'info': render_info}
 
 def main():
