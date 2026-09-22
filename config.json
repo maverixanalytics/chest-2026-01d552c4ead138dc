@@ -83,6 +83,12 @@
      "to": "16:00"
     }
    ],
+   "moves": [
+    {
+     "name": "James",
+     "to": 1
+    }
+   ],
    "events": [
     {
      "time": "12:00 - 1:30 PM",
@@ -140,6 +146,9 @@
      "from": "12:15",
      "to": "14:30"
     }
+   ],
+   "remove": [
+    "Mark"
    ],
    "teardown": {
     "window": "2:30 - 8:00 PM",

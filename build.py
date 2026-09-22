@@ -201,9 +201,20 @@ def render_staffing():
         # fixed floor(n/2) per block would leave one rep off the schedule
         # every day instead of just giving one block an extra person.
         cut = -(-len(reps) // 2)
+        order = reps[rot % len(reps):] + reps[:rot % len(reps)]
+        on_lists = [order[:cut], order[cut:]]
+        # Manual overrides on top of the auto rotation, per the "swap names
+        # freely" notice: "moves" relocates someone to a specific block that
+        # day, "remove" drops someone from every block that day.
+        for mv in d.get('moves', []):
+            for lst in on_lists:
+                if mv['name'] in lst: lst.remove(mv['name'])
+            on_lists[mv['to']].append(mv['name'])
+        for name in d.get('remove', []):
+            for lst in on_lists:
+                if name in lst: lst.remove(name)
         for bi, b in enumerate(d['blocks']):
-            order = reps[rot % len(reps):] + reps[:rot % len(reps)]
-            on = order[:cut] if bi == 0 else order[cut:]
+            on = on_lists[bi]
             chips = ''.join(f'<span>{E(x)}</span>' for x in on)
             rows.append(f'<tr><td class="blk">{E(b["from"])}&ndash;{E(b["to"])}</td>'
                         f'<td><div class="who">{chips}</div></td>'
