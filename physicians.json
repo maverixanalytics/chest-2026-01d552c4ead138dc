@@ -210,8 +210,8 @@
   "email": "suchitra@utep.edu",
   "phone": "",
   "ter": "Phoenix",
-  "photo": "",
-  "hp": "",
+  "photo": "photo-chest-9.jpg",
+  "hp": "https://www.honorhealth.com/physicians/suchitra-pilli",
   "acuity": "",
   "tier": "1",
   "prod": [
@@ -235,8 +235,8 @@
   "email": "patel.priya@mayo.edu",
   "phone": "",
   "ter": "Virginia",
-  "photo": "",
-  "hp": "",
+  "photo": "https://www.inova.org/sites/default/files/styles/690x690/public/providers/58906.jpg?itok=RNtSXP9u",
+  "hp": "https://www.inova.org/doctors/priya-p-patel-md",
   "acuity": "",
   "tier": "1",
   "prod": [
@@ -365,8 +365,8 @@
   "email": "kswenson@partners.org",
   "phone": "",
   "ter": "Boston",
-  "photo": "",
-  "hp": "",
+  "photo": "photo-chest-15.jpg",
+  "hp": "https://findadoc.bidmc.org/details/5617/kai-swenson-internal_medicine-pulmonary_disease-pulmonary_disease-boston",
   "acuity": "",
   "tier": "1",
   "prod": [
@@ -1057,8 +1057,8 @@
   "email": "",
   "phone": "",
   "ter": "West",
-  "photo": "",
-  "hp": "",
+  "photo": "photo-chest-42.jpg",
+  "hp": "https://physicians.ucdavis.edu/medicalcenter/details/63498/jeremy-kim-critical_care_medicine-internal_medicine-interventional_pulmonology-pulmonary_medicine-sacramento",
   "acuity": "",
   "tier": "2",
   "prod": [
