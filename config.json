@@ -215,13 +215,35 @@
     "day": "Monday",
     "when": "October 19 - 12:00 to 1:30 PM",
     "where": "Location TBA",
-    "rsvps": []
+    "rsvps": [
+     {
+      "name": "Kyle Hogarth"
+     },
+     {
+      "name": "Ali Jiwani",
+      "id": "chest-1"
+     },
+     {
+      "name": "Abid Khokar",
+      "id": "chest-29"
+     },
+     {
+      "name": "Kim Styrvoky"
+     }
+    ]
    },
    {
     "day": "Tuesday",
     "when": "October 20 - 12:00 to 1:30 PM",
     "where": "Location TBA",
-    "rsvps": []
+    "rsvps": [
+     {
+      "name": "Momen Wahidi"
+     },
+     {
+      "name": "Adnan Majid"
+     }
+    ]
    }
   ]
  },
