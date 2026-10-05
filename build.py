@@ -188,6 +188,7 @@ def render_targets():
 # on-duty rep is just "at booth", no demo-room slicing.
 def render_staffing():
     reps = [r['name'] for r in CFG['reps']]
+    pm = CFG.get('preshow_meeting')
     out, rot = [], 0
     for d in CFG['days']:
         if d['kind'] == 'setup':
@@ -220,6 +221,8 @@ def render_staffing():
                         f'<td><div class="who">{chips}</div></td>'
                         f'<td>{len(on)} at booth {E(CFG["booth"])}</td></tr>')
         rot += 4
+        pre_row = (f'<div class="crewline"><strong>{E(pm["title"])}:</strong> {E(pm["time"])} &middot; {E(pm["where"])} &middot; {E(pm["who"])}</div>'
+                   if pm and pm.get('date') == d['date'] else '')
         ev = ''.join(f'<div class="crewline"><strong>{E(x["title"])}:</strong> {E(x["time"])} &middot; {E(x["where"])}</div>'
                      for x in d.get('events', []))
         td = d.get('teardown')
@@ -228,11 +231,16 @@ def render_staffing():
                    + ' &middot; '.join(E(x) for x in td['crew'])
                    + f' <span style="color:var(--text-muted)">({E(td["crew_note"])})</span></div>')
         out.append(f"""<div class="daycard"><h2>{E(d['label'])}</h2>
-<div class="daymeta">Exhibit hall {E(d['hall_open'])}&ndash;{E(d['hall_close'])} MT</div>
+<div class="daymeta">Exhibit hall {E(d['hall_open'])}&ndash;{E(d['hall_close'])} MT</div>{pre_row}
 <table class="shiftgrid"><tr><th>Block</th><th>On duty</th><th>Split</th></tr>{''.join(rows)}</table>{ev}</div>""")
+    preshow = (f"""<div class="daycard"><h2>{E(pm['title'])}</h2>
+<div class="daymeta">{E(pm['day'])} &middot; {E(pm['time'])}</div>
+<div class="crewline"><strong>Who:</strong> {E(pm['who'])} &middot; <strong>Where:</strong> {E(pm['where'])}</div></div>"""
+               if pm else '')
     body = f"""<span class="mvx-eyebrow">Booth {E(CFG['booth'])} &middot; {E(CFG['city'])}</span>
 <h1>Booth calendar</h1>
 <div class="sub">{E(CFG['dates'])}. Two blocks a day, rotating so nobody draws the same block twice.</div>
+{preshow}
 <div class="mvx-notice"><strong>Draft rotation</strong> &mdash; {len(reps)} reps split evenly across two blocks a day. Swap names freely; only the block times are fixed by hall hours.</div>
 {''.join(out)}"""
     return shell('staffing', f"{CFG['conference']} - Booth calendar", body)
