@@ -93,7 +93,7 @@
     {
      "time": "12:00 - 1:30 PM",
      "title": "Lab Tour",
-     "where": "TBA"
+     "where": "727 E. Maryland Ave., Phoenix, AZ"
     },
     {
      "time": "5:00 - 6:00 PM",
@@ -122,7 +122,7 @@
     {
      "time": "12:00 - 1:30 PM",
      "title": "Lab Tour",
-     "where": "TBA"
+     "where": "727 E. Maryland Ave., Phoenix, AZ"
     },
     {
      "time": "7:00 PM",
@@ -308,5 +308,13 @@
    "sub": "Main meeting page",
    "url": "https://www.chestnet.org/learning-and-events/events/chest-annual-meeting"
   }
- ]
+ ],
+ "preshow_meeting": {
+  "title": "Pre-show team meeting",
+  "day": "Monday, October 19",
+  "time": "9:15 AM",
+  "where": "Booth 1151",
+  "who": "Entire team",
+  "date": "2026-10-19"
+ }
 }
