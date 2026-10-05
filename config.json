@@ -169,15 +169,25 @@
   "empty_state": "RSVP list opens soon. Check back once invitations have gone out.",
   "rsvps": [
    {
-    "name": "George Cheng",
-    "id": "chest-14"
+    "name": "Adnan Majid"
    },
    {
     "name": "Kai Swenson",
     "id": "chest-15"
    },
    {
+    "name": "Jason Beattie",
+    "id": "chest-21"
+   },
+   {
+    "name": "Anjan Devaraj"
+   },
+   {
     "name": "Yaron Gesthalter"
+   },
+   {
+    "name": "George Cheng",
+    "id": "chest-14"
    },
    {
     "name": "Abhinav Mittal"
