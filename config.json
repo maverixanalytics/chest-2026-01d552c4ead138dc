@@ -227,9 +227,6 @@
     "where": "727 E. Maryland Ave., Phoenix, AZ",
     "rsvps": [
      {
-      "name": "Kyle Hogarth"
-     },
-     {
       "name": "Ali Jiwani",
       "id": "chest-1"
      },
@@ -239,6 +236,10 @@
      },
      {
       "name": "Kim Styrvoky"
+     },
+     {
+      "name": "Jason Beattie",
+      "id": "chest-21"
      }
     ]
    },
@@ -252,6 +253,9 @@
      },
      {
       "name": "Adnan Majid"
+     },
+     {
+      "name": "Kyle Hogarth"
      }
     ]
    }
