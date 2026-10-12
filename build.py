@@ -276,6 +276,11 @@ def render_events():
     hh, td, lt = CFG['happy_hour'], CFG['tuesday_dinner'], CFG['lab_tour']
     td_note = f'<p class="note">{E(td["note"])}</p>' if td.get('note') else ''
     lt_desc = f'<p>{E(lt["description"])}</p>' if lt.get('description') else ''
+    lt_full = f'<p class="note">{E(lt["full_note"])}</p>' if lt.get('full_note') else ''
+    nd = CFG.get('narwhal_demo')
+    nd_sec = (f'<div class="sec"><h2>{E(nd["title"])}</h2>\n'
+              f'<div class="sub">{E(nd["day"])}, {E(nd["when"])}<br>{E(nd["where"])}</div>\n'
+              f'<p>With {E(nd["with"])}</p></div>') if nd else ''
     tour_days = ''.join(
         f'<div class="talk-label">{E(d["day"])} &middot; {E(d["when"])} &middot; {E(d["where"])}</div>'
         f'{rsvp_list(d["rsvps"], lt["empty_state"])}'
@@ -293,7 +298,8 @@ def render_events():
 {td_note}{rsvp_list(td['rsvps'], td['empty_state'])}</div>
 
 <div class="sec"><h2>{E(lt['title'])}</h2>
-{lt_desc}{tour_days}</div>"""
+{lt_desc}{lt_full}{tour_days}</div>
+{nd_sec}"""
     return shell('happyhour', f"{CFG['conference']} - Events", body)
 
 # ------------------------------------------------------------------ invites
@@ -303,8 +309,13 @@ def render_invites():
     # Lab Tour's description lives once, on CFG['lab_tour'], and is pulled in
     # here rather than duplicated in the invites list so the two can't drift.
     lab_tour_desc = CFG.get('lab_tour', {}).get('description', '')
+    lab_tour_full = CFG.get('lab_tour', {}).get('full_note', '')
     for inv in CFG['invites']:
-        if inv['url']:
+        if inv.get('closed') and lab_tour_full:
+            # Tours are full: no QR code or booking link, just the note.
+            qr = f'<div class="mvx-notice">{E(lab_tour_full)}</div>'
+            link = ''
+        elif inv['url']:
             qr = (f'<img class="qr" alt="QR code" src="https://api.qrserver.com/v1/create-qr-code/'
                   f'?size=320x320&amp;data={html.escape(inv["url"], quote=True)}">')
             link = f'<a href="{E(inv["url"])}" target="_blank">{E(inv["url"])} &#8599;</a>'
@@ -314,14 +325,16 @@ def render_invites():
             link = '<span style="color:var(--text-muted)">Link not set yet</span>'
         desc = (f'<p class="idesc">{E(lab_tour_desc)}</p>'
                 if inv['title'] == 'Lab Tour' and lab_tour_desc else '')
+        ilink = f'<div class="ilink">{link}</div>' if link else ''
         cards.append(f'<div class="icard"><span class="tag">{E(inv["sub"])}</span>'
-                     f'<div class="ititle">{E(inv["title"])}</div>{desc}{qr}<div class="ilink">{link}</div></div>')
+                     f'<div class="ititle">{E(inv["title"])}</div>{desc}{qr}{ilink}</div>')
     missing_notice = (f'<div class="mvx-notice">Some links are still blank in <code>config.json</code>. '
                        f'Add the URL and rebuild &mdash; the QR code generates itself.</div>' if missing else '')
+    invites_sub = ('' if all(i.get('closed') for i in CFG['invites'])
+                   else '<div class="sub">Scan at the booth, or text the link.</div>\n')
     body = f"""<span class="mvx-eyebrow">{E(CFG['conference'])}</span>
 <h1>Invites</h1>
-<div class="sub">Scan at the booth, or text the link.</div>
-<div class="mvx-notice">No happy hour invite here &mdash; Beth Israel Deaconess is managing outreach for that event directly to their alumni.</div>
+{invites_sub}<div class="mvx-notice">No happy hour invite here &mdash; Beth Israel Deaconess is managing outreach for that event directly to their alumni.</div>
 {missing_notice}<div class="icards">{''.join(cards)}</div>"""
     return shell('invites', f"{CFG['conference']} - Invites", body)
 
@@ -378,18 +391,18 @@ def render_index():
         'targets':   f'{len(PHYS)} {CFG["specialty"].lower()} ranked by annual core volume, with talk tracks and KOL context. Filter by territory or tier, and capture badge photos from the card.',
         'leaders':   'Points for every lead captured, updated live. A badge photo is one point; a photo with a note is two.',
         'staffing':  f'Who is at booth {CFG["booth"]} and the demo room, Sunday setup through Wednesday teardown.',
-        'happyhour': 'Happy hour, Tuesday dinner, and lab tour RSVPs.',
+        'happyhour': 'Happy hour, Tuesday dinner, lab tour RSVPs, and the Narwhal demo.',
         'tips':      'Narwhal setup, operation and watchouts, plus the answers physicians ask for most. Works offline.',
-        'invites':   'QR codes and textable links for the happy hour and demo room booking.',
+        'invites':   'Lab tour status. Tours are now full.',
         'info':      'Hotel, badges, exhibit hours, lead capture, prizes and links.',
     }
     tag = {
         'targets':   f'{len(PHYS)} physicians',
         'leaders':   'Contest',
         'staffing':  f'Booth {CFG["booth"]}',
-        'happyhour': '3 events',
+        'happyhour': '4 events',
         'tips':      'Field reference',
-        'invites':   'QR codes',
+        'invites':   'Lab tour',
         'info':      'Logistics',
     }
     cards = ''.join(
