@@ -125,6 +125,11 @@
      "where": "727 E. Maryland Ave., Phoenix, AZ"
     },
     {
+     "time": "2:00 PM",
+     "title": "Narwhal demo with Dr. Krish Bhadra, Stanford Medicine",
+     "where": "Thoracent, a Maverix company booth (1151)"
+    },
+    {
      "time": "7:00 PM",
      "title": "MAB Dinner",
      "where": "Wren & Wolf"
@@ -262,14 +267,16 @@
      }
     ]
    }
-  ]
+  ],
+  "full_note": "The lab tours are now full. If you have a physician who would really like to see the lab, reach out to Will and we'll look into it."
  },
  "invites": [
   {
    "title": "Lab Tour",
-   "sub": "Mon-Tue, 12:00 to 1:30 PM - book a slot",
+   "sub": "Mon-Tue, 12:00 to 1:30 PM - now full",
    "url": "https://calendly.com/thoracent-maverix/maverix-lab-tour",
-   "tag": "tag-amber"
+   "tag": "tag-amber",
+   "closed": true
   }
  ],
  "travel": {
@@ -333,5 +340,12 @@
   "where": "Booth 1151",
   "who": "Entire team",
   "date": "2026-10-19"
+ },
+ "narwhal_demo": {
+  "title": "Narwhal demo",
+  "with": "Dr. Krish Bhadra, Stanford Medicine",
+  "day": "Tuesday",
+  "when": "October 20 - 2:00 PM",
+  "where": "Thoracent, a Maverix company booth (1151)"
  }
 }
