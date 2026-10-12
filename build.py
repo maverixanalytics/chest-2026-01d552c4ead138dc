@@ -399,7 +399,7 @@ def render_index():
     body = f"""<span class="mvx-eyebrow">{E(CFG['dates'])} &middot; Booth {E(CFG['booth'])}</span>
 <h1>{E(CFG['conference'])}</h1>
 <div class="sub">{E(CFG['city'])} &middot; {E(CFG['hotel'])}</div>
-<div class="mvx-notice">On a phone, tap <strong>Share &rarr; Add to Home Screen</strong> to install this and keep it working without signal.</div>
+<div class="mvx-notice">On a phone, tap <strong>Share &rarr; More &rarr; Add to Home Screen</strong> to install this and keep it working without signal.</div>
 <div class="cards">{cards}</div>
 <p class="mvx-rxnote">All devices are prescription-only, for use by trained physicians. See each product's Instructions for Use for complete indications, contraindications, warnings, and precautions.</p>"""
     return shell('index', f"Maverix - {CFG['conference']}", body)
