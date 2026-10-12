@@ -323,8 +323,8 @@ def render_invites():
             missing = True
             qr = '<div class="qrempty">QR appears here once the link is set</div>'
             link = '<span style="color:var(--text-muted)">Link not set yet</span>'
-        desc = (f'<p class="idesc">{E(lab_tour_desc)}</p>'
-                if inv['title'] == 'Lab Tour' and lab_tour_desc else '')
+        idesc = inv.get('description') or (lab_tour_desc if inv['title'] == 'Lab Tour' else '')
+        desc = f'<p class="idesc">{E(idesc)}</p>' if idesc else ''
         ilink = f'<div class="ilink">{link}</div>' if link else ''
         cards.append(f'<div class="icard"><span class="tag">{E(inv["sub"])}</span>'
                      f'<div class="ititle">{E(inv["title"])}</div>{desc}{qr}{ilink}</div>')
@@ -393,7 +393,7 @@ def render_index():
         'staffing':  f'Who is at booth {CFG["booth"]} and the demo room, Sunday setup through Wednesday teardown.',
         'happyhour': 'Happy hour, Tuesday dinner, lab tour RSVPs, and the Narwhal demo.',
         'tips':      'Narwhal setup, operation and watchouts, plus the answers physicians ask for most. Works offline.',
-        'invites':   'Lab tour status. Tours are now full.',
+        'invites':   'Meet Narwhal demo QR code and link, plus lab tour status.',
         'info':      'Hotel, badges, exhibit hours, lead capture, prizes and links.',
     }
     tag = {
@@ -402,7 +402,7 @@ def render_index():
         'staffing':  f'Booth {CFG["booth"]}',
         'happyhour': '4 events',
         'tips':      'Field reference',
-        'invites':   'Lab tour',
+        'invites':   'QR codes',
         'info':      'Logistics',
     }
     cards = ''.join(
