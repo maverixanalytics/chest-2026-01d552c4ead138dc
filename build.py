@@ -280,14 +280,15 @@ def render_events():
     nd = CFG.get('narwhal_demo')
     nd_sec = (f'<div class="sec"><h2>{E(nd["title"])}</h2>\n'
               f'<div class="sub">{E(nd["day"])}, {E(nd["when"])}<br>{E(nd["where"])}</div>\n'
-              f'<p>With {E(nd["with"])}</p></div>') if nd else ''
+              f'<p>With {E(nd["with"])}</p>'
+              f'{rsvp_list(nd.get("rsvps", []), nd.get("empty_state", "RSVP list opens soon."))}</div>') if nd else ''
     tour_days = ''.join(
         f'<div class="talk-label">{E(d["day"])} &middot; {E(d["when"])} &middot; {E(d["where"])}</div>'
         f'{rsvp_list(d["rsvps"], lt["empty_state"])}'
         for d in lt['days'])
     body = f"""<span class="mvx-eyebrow">{E(CFG['conference'])}</span>
 <h1>Events</h1>
-<div class="sub">RSVPs for the happy hour, Tuesday dinner, and lab tours &mdash; who's confirmed for each.</div>
+<div class="sub">RSVPs for the happy hour, Tuesday dinner, lab tours, and the Narwhal demo &mdash; who's confirmed for each.</div>
 
 <div class="sec"><h2>{E(hh['title'])}</h2>
 <div class="sub">{E(hh['when'])}<br>{E(hh['where'])}</div>
