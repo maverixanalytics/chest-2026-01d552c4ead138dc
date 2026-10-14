@@ -353,6 +353,11 @@
   "with": "Dr. Krish Bhadra, Stanford Medicine",
   "day": "Tuesday",
   "when": "October 20 - 2:00 PM",
-  "where": "Thoracent, a Maverix company booth (1151)"
+  "where": "Thoracent, a Maverix company booth (1151)",
+  "rsvps": [
+   {
+    "name": "Huzaifa Salat"
+   }
+  ]
  }
 }
