@@ -264,10 +264,22 @@ def rsvp_list(rsvps, empty_state):
     # RSVP list: names from config; an entry with an "id" is on the target
     # list and links to that physician's card.
     rows = []
+    by_id = {p['id']: p for p in PHYS}
     for r in rsvps:
         tag = (f' &mdash; <a href="{SLUG}.html#{E(r["id"])}">on target list</a>'
                if r.get('id') else '')
-        rows.append(f'<li><strong>{E(r["name"])}</strong>{tag}</li>')
+        # Institution and territory: pulled from the target list when the
+        # entry has an "id"; otherwise taken from optional "inst" / "ter"
+        # fields on the config entry.
+        p = by_id.get(r.get('id'), {})
+        inst = r.get('inst') or p.get('inst', '')
+        ter = r.get('ter') or p.get('ter', '')
+        bits = [E(inst)] if inst else []
+        if ter:
+            bits.append(f'{E(ter)} territory')
+        meta = (f'<div style="font-size:.85em;color:var(--text-muted)">'
+                f'{" &middot; ".join(bits)}</div>') if bits else ''
+        rows.append(f'<li><strong>{E(r["name"])}</strong>{tag}{meta}</li>')
     if rows:
         return f'<ul class="mvx-benefits">{"".join(rows)}</ul>'
     return f'<div class="emptystate">{E(empty_state)}</div>'
