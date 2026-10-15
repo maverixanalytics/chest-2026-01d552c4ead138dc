@@ -174,7 +174,9 @@
   "empty_state": "RSVP list opens soon. Check back once invitations have gone out.",
   "rsvps": [
    {
-    "name": "Adnan Majid"
+    "name": "Adnan Majid",
+    "inst": "Beth Israel Deaconess Medical Center, Boston",
+    "ter": "Boston"
    },
    {
     "name": "Kai Swenson",
@@ -185,17 +187,23 @@
     "id": "chest-21"
    },
    {
-    "name": "Anjan Devaraj"
+    "name": "Anjan Devaraj",
+    "inst": "Tufts Medical Center, Boston",
+    "ter": "Boston"
    },
    {
-    "name": "Yaron Gesthalter"
+    "name": "Yaron Gesthalter",
+    "inst": "UCSF Health, San Francisco",
+    "ter": "West"
    },
    {
     "name": "George Cheng",
     "id": "chest-14"
    },
    {
-    "name": "Abhinav Mittal"
+    "name": "Abhinav Mittal",
+    "inst": "Northwest Medical Center, Tucson",
+    "ter": "Phoenix"
    }
   ]
  },
@@ -207,7 +215,9 @@
   "empty_state": "RSVP list opens soon. Check back once invitations have gone out.",
   "rsvps": [
    {
-    "name": "Kyle Hogarth"
+    "name": "Kyle Hogarth",
+    "inst": "UChicago Medicine, Chicago",
+    "ter": "Chicagoland"
    },
    {
     "name": "George Chang"
@@ -217,7 +227,9 @@
     "id": "chest-29"
    },
    {
-    "name": "Catherine Oberg"
+    "name": "Catherine Oberg",
+    "inst": "Memorial Sloan Kettering Cancer Center, New York",
+    "ter": "NYC"
    },
    {
     "name": "Mike Machuzak",
@@ -244,7 +256,9 @@
       "id": "chest-29"
      },
      {
-      "name": "Kim Styrvoky"
+      "name": "Kim Styrvoky",
+      "inst": "Orlando Health Cancer Institute, Orlando",
+      "ter": "Florida"
      },
      {
       "name": "Jason Beattie",
@@ -258,16 +272,24 @@
     "where": "727 E. Maryland Ave., Phoenix, AZ",
     "rsvps": [
      {
-      "name": "Momen Wahidi"
+      "name": "Momen Wahidi",
+      "inst": "Northwestern Medicine, Chicago",
+      "ter": "Chicagoland"
      },
      {
-      "name": "Adnan Majid"
+      "name": "Adnan Majid",
+      "inst": "Beth Israel Deaconess Medical Center, Boston",
+      "ter": "Boston"
      },
      {
-      "name": "Kyle Hogarth"
+      "name": "Kyle Hogarth",
+      "inst": "UChicago Medicine, Chicago",
+      "ter": "Chicagoland"
      },
      {
-      "name": "Catherine Oberg"
+      "name": "Catherine Oberg",
+      "inst": "Memorial Sloan Kettering Cancer Center, New York",
+      "ter": "NYC"
      }
     ]
    }
@@ -360,7 +382,9 @@
   "where": "Thoracent, a Maverix company booth (1151)",
   "rsvps": [
    {
-    "name": "Huzaifa Salat"
+    "name": "Huzaifa Salat",
+    "inst": "Aurora Health Care, Milwaukee",
+    "ter": "Chicagoland"
    },
    {
     "name": "Greg White",
