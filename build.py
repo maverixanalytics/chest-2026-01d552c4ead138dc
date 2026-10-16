@@ -187,61 +187,35 @@ def render_targets():
 # assume - CFG has no 'demo_room' key. Matches deployed behaviour now: every
 # on-duty rep is just "at booth", no demo-room slicing.
 def render_staffing():
-    reps = [r['name'] for r in CFG['reps']]
-    pm = CFG.get('preshow_meeting')
-    out, rot = [], 0
-    for d in CFG['days']:
-        if d['kind'] == 'setup':
-            crew = ' &middot; '.join(E(x) for x in d['crew'])
-            out.append(f"""<div class="daycard"><h2>{E(d['label'])} &mdash; Setup</h2>
-<div class="daymeta">{E(d['note'])}</div>
-<div class="crewline"><strong>Setup crew, {E(d['window'])}:</strong> {crew} <span style="color:var(--text-muted)">({E(d['crew_note'])})</span></div></div>""")
-            continue
+    # Calendar = the CHEST run of show (config "run_of_show"): per-day table of
+    # time / activity / who / notes, tinted by category. Replaces the earlier
+    # auto-rotated booth-coverage draft.
+    ros = CFG['run_of_show']
+    cats = ros['categories']
+    def x(t):
+        return (E(t).replace('\u2013', '&ndash;').replace('\u2019', '&rsquo;')
+                .replace('\u00b7', '&middot;'))
+    legend = ''.join(
+        f'<span style="display:inline-flex;align-items:center;gap:.35rem;margin-right:.9rem">'
+        f'<span style="width:.8rem;height:.8rem;background:{E(v["color"])};display:inline-block;border:1px solid var(--frame-line)"></span>'
+        f'{E(v["label"])}</span>' for v in cats.values())
+    out = []
+    for d in ros['days']:
         rows = []
-        # Ceil/floor split rather than a fixed half: with an odd rep count a
-        # fixed floor(n/2) per block would leave one rep off the schedule
-        # every day instead of just giving one block an extra person.
-        cut = -(-len(reps) // 2)
-        order = reps[rot % len(reps):] + reps[:rot % len(reps)]
-        on_lists = [order[:cut], order[cut:]]
-        # Manual overrides on top of the auto rotation, per the "swap names
-        # freely" notice: "moves" relocates someone to a specific block that
-        # day, "remove" drops someone from every block that day.
-        for mv in d.get('moves', []):
-            for lst in on_lists:
-                if mv['name'] in lst: lst.remove(mv['name'])
-            on_lists[mv['to']].append(mv['name'])
-        for name in d.get('remove', []):
-            for lst in on_lists:
-                if name in lst: lst.remove(name)
-        for bi, b in enumerate(d['blocks']):
-            on = on_lists[bi]
-            chips = ''.join(f'<span>{E(x)}</span>' for x in on)
-            rows.append(f'<tr><td class="blk">{E(b["from"])}&ndash;{E(b["to"])}</td>'
-                        f'<td><div class="who">{chips}</div></td>'
-                        f'<td>{len(on)} at booth {E(CFG["booth"])}</td></tr>')
-        rot += 4
-        pre_row = (f'<div class="crewline"><strong>{E(pm["title"])}:</strong> {E(pm["time"])} &middot; {E(pm["where"])} &middot; {E(pm["who"])}</div>'
-                   if pm and pm.get('date') == d['date'] else '')
-        ev = ''.join(f'<div class="crewline"><strong>{E(x["title"])}:</strong> {E(x["time"])} &middot; {E(x["where"])}</div>'
-                     for x in d.get('events', []))
-        td = d.get('teardown')
-        if td:
-            ev += (f'<div class="crewline"><strong>Teardown, {E(td["window"])}:</strong> '
-                   + ' &middot; '.join(E(x) for x in td['crew'])
-                   + f' <span style="color:var(--text-muted)">({E(td["crew_note"])})</span></div>')
-        out.append(f"""<div class="daycard"><h2>{E(d['label'])}</h2>
-<div class="daymeta">Exhibit hall {E(d['hall_open'])}&ndash;{E(d['hall_close'])} MT</div>{pre_row}
-<table class="shiftgrid"><tr><th>Block</th><th>On duty</th><th>Split</th></tr>{''.join(rows)}</table>{ev}</div>""")
-    preshow = (f"""<div class="daycard"><h2>{E(pm['title'])}</h2>
-<div class="daymeta">{E(pm['day'])} &middot; {E(pm['time'])}</div>
-<div class="crewline"><strong>Who:</strong> {E(pm['who'])} &middot; <strong>Where:</strong> {E(pm['where'])}</div></div>"""
-               if pm else '')
+        for r in d['rows']:
+            bg = cats[r['cat']]['color'] if r.get('cat') else ''
+            style = f' style="background:{E(bg)};color:#1b2a3a"' if bg else ''
+            who = '<br>'.join(x(w) for w in r.get('who', []))
+            notes = f'<div style="font-size:.85em;color:#44566a">{x(r["notes"])}</div>' if r.get('notes') else ''
+            rows.append(f'<tr{style}><td class="blk">{x(r["time"])}</td>'
+                        f'<td><strong>{x(r["activity"])}</strong>{notes}</td><td>{who}</td></tr>')
+        out.append(f"""<div class="daycard"><h2>{x(d['label'])}</h2>
+<div class="daymeta">{x(d['sub'])}</div>
+<table class="shiftgrid"><tr><th>Time</th><th>Activity</th><th>Who</th></tr>{''.join(rows)}</table></div>""")
     body = f"""<span class="mvx-eyebrow">Booth {E(CFG['booth'])} &middot; {E(CFG['city'])}</span>
 <h1>Booth calendar</h1>
-<div class="sub">{E(CFG['dates'])}. Two blocks a day, rotating so nobody draws the same block twice.</div>
-{preshow}
-<div class="mvx-notice"><strong>Draft rotation</strong> &mdash; {len(reps)} reps split evenly across two blocks a day. Swap names freely; only the block times are fixed by hall hours.</div>
+<div class="sub">{E(CFG['conference'])} run of show, {E(CFG['dates'])}. All times Mountain.</div>
+<div class="crewline" style="margin:.2rem 0 .8rem">{legend}</div>
 {''.join(out)}"""
     return shell('staffing', f"{CFG['conference']} - Booth calendar", body)
 
