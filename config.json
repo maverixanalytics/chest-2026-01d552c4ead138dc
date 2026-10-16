@@ -235,6 +235,11 @@
    {
     "name": "Mike Machuzak",
     "id": "chest-18"
+   },
+   {
+    "name": "Michael Pritchett",
+    "inst": "Pinehurst Medical Clinic, Pinehurst",
+    "ter": "Southeast"
    }
   ]
  },
@@ -391,6 +396,277 @@
     "name": "Greg White",
     "inst": "CHRISTUS Trinity Clinic, Texarkana",
     "ter": "Dallas"
+   }
+  ]
+ },
+ "run_of_show": {
+  "categories": {
+   "booth": {
+    "label": "Booth",
+    "color": "#DBE5F1"
+   },
+   "lab": {
+    "label": "Lab Tour",
+    "color": "#B6DDE8"
+   },
+   "demo": {
+    "label": "Hands-On Demo",
+    "color": "#E5DFEC"
+   },
+   "social": {
+    "label": "Happy Hour/Dinners",
+    "color": "#95B3D7"
+   }
+  },
+  "days": [
+   {
+    "label": "Sunday / Oct 18",
+    "sub": "Pre-conference setup",
+    "rows": [
+     {
+      "time": "2:00 – 5:00 PM",
+      "activity": "Booth setup",
+      "who": [
+       "Will / Kristen / Chris"
+      ],
+      "notes": "Backdrop, brochures, socks, plushies, pins",
+      "cat": "booth"
+     },
+     {
+      "time": "2:00 – 5:00 PM",
+      "activity": "Demo setup planning",
+      "who": [
+       "Will / Kristen / Chris"
+      ],
+      "notes": "Furniture layout, monitor plan, equipment",
+      "cat": "booth"
+     },
+     {
+      "time": "TBD",
+      "activity": "Pick up printing",
+      "who": [],
+      "notes": "Demo flyers, demo posters, happy hour posters",
+      "cat": ""
+     }
+    ]
+   },
+   {
+    "label": "Monday / Oct 19",
+    "sub": "Exhibit hall 10:00 AM–4:00 PM MT",
+    "rows": [
+     {
+      "time": "9:15 AM",
+      "activity": "Pre-Show Team Meeting",
+      "who": [
+       "All"
+      ],
+      "notes": "Booth 1151",
+      "cat": ""
+     },
+     {
+      "time": "10:00–1:00",
+      "activity": "Booth coverage",
+      "who": [
+       "Will · Chris M. · Caroline"
+      ],
+      "notes": "3 at booth 1151",
+      "cat": "booth"
+     },
+     {
+      "time": "11:00 AM",
+      "activity": "Lab setup",
+      "who": [
+       "Will · Kristen"
+      ],
+      "notes": "727 E. Maryland Ave.",
+      "cat": "lab"
+     },
+     {
+      "time": "12:00 PM",
+      "activity": "Physician pickup",
+      "who": [
+       "Chris M"
+      ],
+      "notes": "Meet at booth; escort to David’s car",
+      "cat": "lab"
+     },
+     {
+      "time": "12:00–1:30",
+      "activity": "Physician lab tour",
+      "who": [
+       "Ali Jiwani / Abid Khokar / Kim Styrvoky / Jason Beattie",
+       "Carla / Jeremy / Brian / Mark / Chris O"
+      ],
+      "notes": "Box lunches; transportation provided",
+      "cat": "lab"
+     },
+     {
+      "time": "1:00–4:00",
+      "activity": "Booth coverage",
+      "who": [
+       "Mark · Curtis · Matt E. · James"
+      ],
+      "notes": "4 at booth 1151",
+      "cat": "booth"
+     },
+     {
+      "time": "4:30 PM",
+      "activity": "Happy hour setup",
+      "who": [
+       "Will / Kristen"
+      ],
+      "notes": "Pull-up banner, poster, stand, brochures",
+      "cat": "social"
+     },
+     {
+      "time": "5:00–6:00",
+      "activity": "BIDMC Happy Hour",
+      "who": [
+       "All"
+      ],
+      "notes": "Pa’la Kitchen",
+      "cat": "social"
+     },
+     {
+      "time": "6:00 PM",
+      "activity": "OPEN",
+      "who": [
+       "All"
+      ],
+      "notes": "Time available for customer dinners, etc",
+      "cat": ""
+     }
+    ]
+   },
+   {
+    "label": "Tuesday / Oct 20",
+    "sub": "Exhibit hall 10:00 AM–3:00 PM MT",
+    "rows": [
+     {
+      "time": "10:00–12:30",
+      "activity": "Booth coverage",
+      "who": [
+       "Mark · Curtis · Matt E. · Will"
+      ],
+      "notes": "4 at booth 1151",
+      "cat": "booth"
+     },
+     {
+      "time": "11:00 AM",
+      "activity": "Lab setup",
+      "who": [
+       "Will · Kristen"
+      ],
+      "notes": "727 E. Maryland Ave.",
+      "cat": "lab"
+     },
+     {
+      "time": "12:00 PM",
+      "activity": "Physician pickup",
+      "who": [
+       "Chris M"
+      ],
+      "notes": "Meet at booth; escort to David’s car",
+      "cat": "lab"
+     },
+     {
+      "time": "12:00–1:30",
+      "activity": "Physician lab tour",
+      "who": [
+       "Momen Wahidi / Adnan Majid / Kyle Hogarth / Catherine Oberg",
+       "Carla / Brian / Chris O / Caroline"
+      ],
+      "notes": "Box lunches; transportation provided",
+      "cat": "lab"
+     },
+     {
+      "time": "12:30–3:00",
+      "activity": "Booth coverage",
+      "who": [
+       "Chris M. / James / Caroline (1:30)"
+      ],
+      "notes": "3 at booth 1151",
+      "cat": "booth"
+     },
+     {
+      "time": "1:30 PM",
+      "activity": "Narwhal demo setup",
+      "who": [
+       "Chris M"
+      ],
+      "notes": "Demo area, equipment, monitor",
+      "cat": "demo"
+     },
+     {
+      "time": "2:00 PM",
+      "activity": "Narwhal live demo",
+      "who": [
+       "Dr. Krish Bhadra / All"
+      ],
+      "notes": "Booth 1151; Kristen / Will scans badges",
+      "cat": "demo"
+     },
+     {
+      "time": "7:00 PM",
+      "activity": "MAB Dinner",
+      "who": [
+       "MAB attendees"
+      ],
+      "notes": "Wren & Wolf",
+      "cat": "social"
+     },
+     {
+      "time": "7:00 PM",
+      "activity": "OPEN",
+      "who": [
+       "Non-MAB attendees"
+      ],
+      "notes": "3 reservations available for customer dinners or team dinner",
+      "cat": ""
+     }
+    ]
+   },
+   {
+    "label": "Wednesday / Oct 21",
+    "sub": "Exhibit hall 10:00 AM–2:30 PM MT",
+    "rows": [
+     {
+      "time": "8:30–1:00",
+      "activity": "Demo video",
+      "who": [
+       "Chris O. · Matt E. · Will · Kristen"
+      ],
+      "notes": "Block 23, Suite 800, 101 East Washington Street",
+      "cat": ""
+     },
+     {
+      "time": "10:00–12:15",
+      "activity": "Booth coverage",
+      "who": [
+       "Chris M. · Caroline · James"
+      ],
+      "notes": "3 at booth 1151",
+      "cat": "booth"
+     },
+     {
+      "time": "12:15–2:30",
+      "activity": "Booth coverage",
+      "who": [
+       "Curtis · Matt E. · Will"
+      ],
+      "notes": "3 at booth 1151",
+      "cat": "booth"
+     },
+     {
+      "time": "2:30 – 8:00 PM",
+      "activity": "Teardown begins",
+      "who": [
+       "Will / Chris / Kristen / Curtis"
+      ],
+      "notes": "Pack and remove materials",
+      "cat": "booth"
+     }
+    ]
    }
   ]
  }
