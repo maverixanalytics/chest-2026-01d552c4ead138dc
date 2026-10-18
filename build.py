@@ -376,7 +376,7 @@ def render_info():
 def render_index():
     blurb = {
         'targets':   f'{len(PHYS)} {CFG["specialty"].lower()} ranked by annual core volume, with talk tracks and KOL context. Filter by territory or tier, and capture badge photos from the card.',
-        'leaders':   'Points for every lead captured, updated live. A badge photo is one point; a photo with a note is two; a lead from a target-list physician earns 5 bonus points.',
+        'leaders':   'Points for every lead captured, updated live. A badge photo is one point; a photo with a note is two; the first lead logged from each target-list physician earns 5 bonus points.',
         'staffing':  f'Who is at booth {CFG["booth"]} and the demo room, Sunday setup through Wednesday teardown.',
         'happyhour': 'Happy hour, Tuesday dinner, lab tour RSVPs, and the Narwhal demo.',
         'tips':      'Narwhal setup, operation and watchouts, plus the answers physicians ask for most. Works offline.',
