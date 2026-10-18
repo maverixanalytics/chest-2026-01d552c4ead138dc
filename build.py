@@ -362,9 +362,9 @@ def render_info():
 <p>Every physician card on the <a href="{FILE['targets']}">target list</a> has a <strong>Badge photo + note</strong> button. Met someone who isn't on the list? Use the orange <strong>+</strong> button in the bottom-left corner of the target list, or <strong>Off-list lead</strong> in the filter bar, instead.</p>
 <p><strong>1.</strong> Tap <strong>Badge photo + note</strong> on their card (or the off-list button).<br>
 <strong>2.</strong> Under <strong>Your name</strong>, select yourself so the lead is credited to you.<br>
-<strong>3.</strong> Tap <strong>Take badge photo</strong> to use your camera, or <strong>Choose an existing photo</strong> for one already on your phone.<br>
+<strong>3.</strong> Tap <strong>Take badge photo</strong> to use your camera, or <strong>Choose an existing photo</strong> for one already on your phone. <strong>Fill the frame with the badge &mdash; a large, clear photo is essential so the name can be read.</strong><br>
 <strong>4.</strong> Add a note if you can &mdash; one word is often the whole story.<br>
-<strong>5.</strong> Tap <strong>Save lead</strong>.</p>
+<strong>5.</strong> Tap <strong>Save lead</strong>. For a target-list physician, this also checks <strong>Connected at conference</strong> on their card.</p>
 <p class="note">Saving works offline &mdash; the lead is queued on your phone right away and uploads automatically once you have signal, with no need to keep the tab open. The pill in the bottom-right corner of the target list shows sync status.</p>
 <p>{E(CFG['scoring'])}</p>
 <ul class="mvx-benefits">{prizes}</ul></div>
@@ -376,7 +376,7 @@ def render_info():
 def render_index():
     blurb = {
         'targets':   f'{len(PHYS)} {CFG["specialty"].lower()} ranked by annual core volume, with talk tracks and KOL context. Filter by territory or tier, and capture badge photos from the card.',
-        'leaders':   'Points for every lead captured, updated live. A badge photo is one point; a photo with a note is two; the first lead logged from each target-list physician earns 5 bonus points.',
+        'leaders':   'Points for every lead captured, updated live. A badge photo is one point; a photo with a note is two; only the first lead for each target-list physician scores, with 5 bonus points.',
         'staffing':  f'Who is at booth {CFG["booth"]} and the demo room, Sunday setup through Wednesday teardown.',
         'happyhour': 'Happy hour, Tuesday dinner, lab tour RSVPs, and the Narwhal demo.',
         'tips':      'Narwhal setup, operation and watchouts, plus the answers physicians ask for most. Works offline.',
